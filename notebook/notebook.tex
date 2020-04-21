@@ -1,0 +1,2548 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{LSID\_data\_process-Moodle}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}137}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{gl\PYZus{}moodle} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{..}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Datasets}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Moodle}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{export}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mdl\PYZus{}logstore\PYZus{}standard\PYZus{}log.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{gl} \PY{o}{=} \PY{n}{gl\PYZus{}moodle}
+        \PY{n}{gl\PYZus{}oulad} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{..}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Datasets}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{OULAD}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{database}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{studentVle.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}computer\textbackslash{}Anaconda2\textbackslash{}envs\textbackslash{}py35\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}IPython\textbackslash{}core\textbackslash{}interactiveshell.py:2785: DtypeWarning: Columns (19,20) have mixed types. Specify dtype option on import or set low\_memory=False.
+  interactivity=interactivity, compiler=compiler, result=result)
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{k+kn}{from} \PY{n+nn}{datetime} \PY{k}{import} \PY{n}{datetime}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{gl\PYZus{}oulad}\PY{o}{.}\PY{n}{id\PYZus{}student}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+10655280
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{gl\PYZus{}moodle}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}5}]:}                   username     id                  eventname component  \textbackslash{}
+        0  user8540069828419911681  25017  \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed      core   
+        1  user8540069828419911681  25017  \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed      core   
+        2  user6442803380426375169  37433  \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed      core   
+        3  user6442803380426375169  37433  \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed      core   
+        4  user8540069828419911681  70090  \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed      core   
+        
+           action  target objecttable  objectid crud  edulevel     {\ldots}       \textbackslash{}
+        0  viewed  course         NaN       NaN    r         2     {\ldots}        
+        1  viewed  course         NaN       NaN    r         2     {\ldots}        
+        2  viewed  course         NaN       NaN    r         2     {\ldots}        
+        3  viewed  course         NaN       NaN    r         2     {\ldots}        
+        4  viewed  course         NaN       NaN    r         2     {\ldots}        
+        
+           contextlevel  contextinstanceid  courseid  anonymous  other timecreated  \textbackslash{}
+        0            50               5282      5282          0     N;  1417771086   
+        1            50               5282      5282          0     N;  1417771086   
+        2            50               5282      5282          0     N;  1417859881   
+        3            50               5282      5282          0     N;  1417859881   
+        4            50               5282      5282          0     N;  1418071759   
+        
+           origin       ip relatedusername realusername  
+        0     web  0.0.0.0             NaN          NaN  
+        1     web  0.0.0.0             NaN          NaN  
+        2     web  0.0.0.0             NaN          NaN  
+        3     web  0.0.0.0             NaN          NaN  
+        4     web  0.0.0.0             NaN          NaN  
+        
+        [5 rows x 21 columns]
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{gl\PYZus{}oulad}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}6}]:}   code\_module code\_presentation  id\_student  id\_site  date  sum\_click
+        0         AAA             2013J       28400   546652   -10          4
+        1         AAA             2013J       28400   546652   -10          1
+        2         AAA             2013J       28400   546652   -10          1
+        3         AAA             2013J       28400   546614   -10         11
+        4         AAA             2013J       28400   546714   -10          1
+\end{Verbatim}
+            
+    \subsection{Optimize}\label{optimize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{k}{for} \PY{n}{dtype} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{float}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{int}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:}
+            \PY{n}{selected\PYZus{}dtype} \PY{o}{=} \PY{n}{gl}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{n}{dtype}\PY{p}{]}\PY{p}{)}
+            \PY{n}{mean\PYZus{}usage\PYZus{}b} \PY{o}{=} \PY{n}{selected\PYZus{}dtype}\PY{o}{.}\PY{n}{memory\PYZus{}usage}\PY{p}{(}\PY{n}{deep}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+            \PY{n}{mean\PYZus{}usage\PYZus{}mb} \PY{o}{=} \PY{n}{mean\PYZus{}usage\PYZus{}b} \PY{o}{/} \PY{l+m+mi}{1024} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Average memory usage for }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s2}{ columns: }\PY{l+s+si}{\PYZob{}:03.2f\PYZcb{}}\PY{l+s+s2}{ MB}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{dtype}\PY{p}{,}\PY{n}{mean\PYZus{}usage\PYZus{}mb}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Average memory usage for float columns: 9.12 MB
+Average memory usage for int columns: 0.00 MB
+Average memory usage for object columns: 142.85 MB
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{gl\PYZus{}obj} \PY{o}{=} \PY{n}{gl}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+        \PY{n}{gl\PYZus{}obj}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}8}]:}                        username                 eventname component   action  \textbackslash{}
+        count                   2391762                   2391762   2391762  2391762   
+        unique                     2168                       311        46       56   
+        top     user8540069828419911681  \textbackslash{}core\textbackslash{}event\textbackslash{}message\_sent      core   viewed   
+        freq                     497754                    544059   1675033  1030271   
+        
+                 target        objecttable     crud    other   origin       ip  \textbackslash{}
+        count   2391762            1305433  2391762  2391762  2391762  2391762   
+        unique      120                 86        4   519554        4        1   
+        top     message  forum\_discussions        r       N;      web  0.0.0.0   
+        freq     697550             157306  1205293   851895  1419954  2391762   
+        
+                        relatedusername             realusername  
+        count                    484091                     1134  
+        unique                     2168                        2  
+        top     user6442803380426375169  user6442803380426375169  
+        freq                      30619                     1047  
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}43}]:} \PY{k+kn}{import} \PY{n+nn}{pip}
+         
+         \PY{k}{def} \PY{n+nf}{install}\PY{p}{(}\PY{n}{package}\PY{p}{)}\PY{p}{:}
+             \PY{k}{if} \PY{n+nb}{hasattr}\PY{p}{(}\PY{n}{pip}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{main}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{pip}\PY{o}{.}\PY{n}{main}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{install}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{package}\PY{p}{]}\PY{p}{)}
+             \PY{k}{else}\PY{p}{:}
+                 \PY{n}{pip}\PY{o}{.}\PY{n}{\PYZus{}internal}\PY{o}{.}\PY{n}{main}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{install}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{package}\PY{p}{]}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Example}
+         \PY{k}{if} \PY{n+nv+vm}{\PYZus{}\PYZus{}name\PYZus{}\PYZus{}} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}\PYZus{}main\PYZus{}\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+             \PY{n}{install}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tzlocal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        AttributeError                            Traceback (most recent call last)
+
+        <ipython-input-43-4067c7f808a0> in <module>()
+          9 \# Example
+         10 if \_\_name\_\_ == '\_\_main\_\_':
+    ---> 11     install('tzlocal')
+    
+
+        <ipython-input-43-4067c7f808a0> in install(package)
+          5         pip.main(['install', package])
+          6     else:
+    ----> 7         pip.\_internal.main(['install', package])
+          8 
+          9 \# Example
+    
+
+        AttributeError: module 'pip' has no attribute '\_internal'
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{k}{def} \PY{n+nf}{convertTimstamp}\PY{p}{(}\PY{n}{timestamp}\PY{p}{)}\PY{p}{:}
+            \PY{n}{unix\PYZus{}timestamp} \PY{o}{=} \PY{n+nb}{float}\PY{p}{(}\PY{n}{timestamp}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{}local\PYZus{}timezone = tzlocal.get\PYZus{}localzone() \PYZsh{} get pytz timezone}
+            \PY{c+c1}{\PYZsh{}local\PYZus{}time = datetime.fromtimestamp(unix\PYZus{}timestamp, local\PYZus{}timezone)}
+            \PY{c+c1}{\PYZsh{}local\PYZus{}timezone = tzlocal.get\PYZus{}localzone() \PYZsh{} get pytz timezone}
+            \PY{n}{local\PYZus{}time} \PY{o}{=} \PY{n}{datetime}\PY{o}{.}\PY{n}{fromtimestamp}\PY{p}{(}\PY{n}{unix\PYZus{}timestamp}\PY{p}{)}    
+            \PY{k}{return} \PY{n}{local\PYZus{}time} \PY{c+c1}{\PYZsh{}print (local\PYZus{}time)}
+            
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{k}{def} \PY{n+nf}{diffTimstamp}\PY{p}{(}\PY{n}{timestamp}\PY{p}{,} \PY{n}{timestamp2}\PY{p}{)}\PY{p}{:}
+             \PY{n}{fmt} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{Y\PYZhy{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{m\PYZhy{}}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{H:}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{M:}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{S}\PY{l+s+s1}{\PYZsq{}}
+             \PY{n}{tstamp1} \PY{o}{=} \PY{n}{datetime}\PY{o}{.}\PY{n}{strptime}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{timestamp}\PY{p}{)}\PY{p}{,} \PY{n}{fmt}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{tstamp1}\PY{p}{)}
+             \PY{n}{tstamp2} \PY{o}{=} \PY{n}{datetime}\PY{o}{.}\PY{n}{strptime}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{timestamp2}\PY{p}{)}\PY{p}{,} \PY{n}{fmt}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{tstamp2}\PY{p}{)}
+             \PY{k}{if} \PY{n}{tstamp1} \PY{o}{\PYZgt{}} \PY{n}{tstamp2}\PY{p}{:}
+                 \PY{n}{td} \PY{o}{=} \PY{n}{tstamp1} \PY{o}{\PYZhy{}} \PY{n}{tstamp2}
+             \PY{k}{else}\PY{p}{:}
+                 \PY{n}{td} \PY{o}{=} \PY{n}{tstamp2} \PY{o}{\PYZhy{}} \PY{n}{tstamp1}
+             \PY{n}{td\PYZus{}mins} \PY{o}{=} \PY{p}{(} \PY{n+nb}{round}\PY{p}{(}\PY{n}{td}\PY{o}{.}\PY{n}{total\PYZus{}seconds}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{3600}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{td}\PY{o}{.}\PY{n}{total\PYZus{}seconds}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{3600}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{60}
+             \PY{n}{td\PYZus{}hrs} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{td}\PY{o}{.}\PY{n}{total\PYZus{}seconds}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{3600}\PY{p}{)}
+             \PY{n}{td\PYZus{}hrsstay} \PY{o}{=} \PY{p}{(} \PY{n+nb}{round}\PY{p}{(}\PY{n}{td\PYZus{}hrs} \PY{o}{/} \PY{l+m+mi}{24}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{td\PYZus{}hrs}\PY{o}{/}\PY{l+m+mi}{24}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{24}
+             \PY{n}{td\PYZus{}days} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{td\PYZus{}hrs} \PY{o}{/} \PY{l+m+mi}{24}\PY{p}{)}
+         
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The difference is approx. }\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{ days }\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{ hrs }\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{ minutes }\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{ secs}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{td\PYZus{}days}\PY{p}{,}\PY{n}{td\PYZus{}hrsstay}\PY{p}{,} \PY{n}{td\PYZus{}mins}\PY{p}{,}\PY{n}{td}\PY{o}{.}\PY{n}{total\PYZus{}seconds}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{convertTimstamp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1471240452}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}11}]:} datetime.datetime(2016, 8, 15, 6, 54, 12)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{convertTimstamp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1471818349}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}12}]:} datetime.datetime(2016, 8, 21, 23, 25, 49)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{n}{diffTimstamp}\PY{p}{(}\PY{n}{convertTimstamp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1471240452}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PY{n}{convertTimstamp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1471818349}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}print(diff)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+2016-08-15 06:54:12
+2016-08-21 23:25:49
+The difference is approx. 6 days 7.000000000000007 hrs 28.383333333333667 minutes 577897.0 secs
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{c+c1}{\PYZsh{}gl[\PYZsq{}other\PYZsq{}][100000]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{c+c1}{\PYZsh{}gl[\PYZsq{}eventname\PYZsq{}].unique().tolist()}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{n}{gl}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{target}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}16}]:} ['course',
+          'course\_module',
+          'message',
+          'course\_section',
+          'user',
+          'course\_content',
+          'role\_capabilities',
+          'course\_category',
+          'discussion',
+          'user\_profile',
+          'user\_list',
+          'calendar\_event',
+          'assessable',
+          'post',
+          'user\_enrolment',
+          'report',
+          'langpack',
+          'user\_password',
+          'role',
+          'notes',
+          'user\_login',
+          'activity\_report',
+          'course\_module\_completion',
+          'user\_report',
+          'course\_module\_instance\_list',
+          'webservice\_token',
+          'webservice\_function',
+          'chapter',
+          'book',
+          'page\_map',
+          'page\_history',
+          'page',
+          'comments',
+          'page\_diff',
+          'grade\_report',
+          'discussion\_subscription',
+          'edit\_page',
+          'folder',
+          'page\_locks',
+          'blog\_entries',
+          'message\_contact',
+          'answer',
+          'response',
+          'attempt',
+          'blog\_comment',
+          'recent\_activity',
+          'blog\_entry',
+          'lesson',
+          'submission\_status',
+          'phase',
+          'entry',
+          'tag',
+          'sessions',
+          'page\_version',
+          'field',
+          'record',
+          'template',
+          'bigbluebuttonbn\_activity',
+          'bigbluebuttonbn\_meeting',
+          'recordingsbn\_resource\_page',
+          'recordingsbn\_recording',
+          'comment',
+          'question\_category',
+          'attempt\_summary',
+          'submission',
+          'attempt\_preview',
+          'grading\_table',
+          'sco',
+          'grading\_form',
+          'submission\_form',
+          'assessment',
+          'submission\_confirmation\_form',
+          'workflow\_state',
+          'course\_resources\_list',
+          'grade',
+          'group',
+          'group\_member',
+          'grouping',
+          'content\_page',
+          'bigbluebuttonbn\_activity\_management',
+          'badge',
+          'category',
+          'subscription',
+          'question',
+          'subscribers',
+          'group\_override',
+          'email',
+          'course\_completion',
+          'enrol\_instance',
+          'cohort',
+          'cohort\_member',
+          'readtracking',
+          'course\_user\_report',
+          'statement',
+          'course\_bin\_item',
+          'competency',
+          'competency\_framework',
+          'competency\_template',
+          'choice',
+          'all\_files',
+          'tag\_collection',
+          'question\_manually',
+          'competency\_evidence',
+          'course\_reset',
+          'status',
+          'grouping\_group',
+          'all\_submissions',
+          'reveal\_identities\_confirmation\_page',
+          'extension',
+          'category\_bin\_item',
+          'dashboard',
+          'badge\_listing',
+          'badge\_criteria',
+          'blog\_association',
+          'scoreraw',
+          'competency\_plan',
+          'competency\_user\_competency\_viewed\_in',
+          'competency\_user\_competency\_review',
+          'competency\_user\_competency\_rated\_in',
+          'competency\_comment']
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{n+nb}{len}\PY{p}{(}\PY{n}{gl}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{eventname}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}17}]:} 311
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{n}{gl\PYZus{}moodle\PYZus{}user} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{..}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Datasets}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Moodle}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{export}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mdl\PYZus{}user.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{gl\PYZus{}moodle\PYZus{}user}\PY{p}{)}\PY{p}{)}
+         \PY{n}{gl\PYZus{}moodle\PYZus{}user}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+2170
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}19}]:}    id  confirmed  deleted  suspended  mnethostid                 username  \textbackslash{}
+         0   0          1        0          0           1   user186977097674129409   
+         1   0          1        0          0           1  user4786049973974204417   
+         2   0          1        0          0           1  user7133053338412646401   
+         3   0          1        0          0           1  user3543713697010548737   
+         4   0          1        0          0           1  user1626801571545219073   
+         
+            idnumber                       firstname                     lastname  \textbackslash{}
+         0       NaN   WjLE Pjb a VUQhOz yem tGdQmvn   r  nrmZZflGFBbefW REfdbNtc   
+         1       NaN  gDOm SYE kqhByCiKt UKeBhg dhsS  rYPW  nh uwBnv mRBNDSqXARSS   
+         2       NaN  drbW XEKAWJ Uuf xI SHCBFLbQB H  bk HPF g bJfbmkXA ELjDgTfXK   
+         3       NaN  j jFL wXXlycRoDTOOFkDATM Wn xY   ntXGuKKFnZM DDzIKJ SGcDDAQ   
+         4       NaN  ELnLGLosOo ZpbuQ p Rltre o  EX  BWH tPHVEGvLM FR WAOcwKuJfC   
+         
+                                      email     {\ldots}       autosubscribe trackforums  \textbackslash{}
+         0   lhIh LplRfJO kFOnSFr vgzdkgCX      {\ldots}                   1           1   
+         1  NVLCcu ynMuo F JTxPtWS EvgZUlDa     {\ldots}                   1           1   
+         2  xsRHIwCM JQpY d  fDPEwoCpuHN EQ     {\ldots}                   1           1   
+         3  TeE GqMSCATQZ y DSadhGXurEnmVqH     {\ldots}                   1           1   
+         4   CbR iOB d P ZIvAsUcVGJcHVpWwba     {\ldots}                   1           1   
+         
+           timecreated timemodified  trustbitmask lastnamephonetic firstnamephonetic  \textbackslash{}
+         0  1458663475   1487132351             0              NaN               NaN   
+         1  1463176270   1487132229             0              NaN               NaN   
+         2  1463259148   1487132092             0              NaN               NaN   
+         3  1452399813   1487132086             0              NaN               NaN   
+         4  1464780978   1487132339             0              NaN               NaN   
+         
+           middlename alternatename calendartype  
+         0        NaN           NaN    gregorian  
+         1        NaN           NaN    gregorian  
+         2        NaN           NaN    gregorian  
+         3        NaN           NaN    gregorian  
+         4        NaN           NaN    gregorian  
+         
+         [5 rows x 48 columns]
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{..}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Datasets}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Moodle}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{export}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mdl\PYZus{}course\PYZus{}modules.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities}\PY{p}{)}\PY{p}{)}
+         \PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+60
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}21}]:}        name     id  course  module  instance  section  idnumber       added  \textbackslash{}
+         0     forum  54984   10464       9     13387    58964       NaN  1372670270   
+         1    survey  55004   10464      19       662    58966       NaN  1378189004   
+         2  feedback  54995   10464       7      1007    58965       NaN  1372678410   
+         3     forum  54999   10464       9     13389    58965       NaN  1372677682   
+         4      quiz  54994   10464      16      4407    58965       NaN  1372678281   
+         
+            score  indent        {\ldots}          visibleold  groupmode  groupingid  \textbackslash{}
+         0      0       0        {\ldots}                   1          0           0   
+         1      0       0        {\ldots}                   1          0           0   
+         2      0       0        {\ldots}                   1          0           0   
+         3      0       0        {\ldots}                   1          1           0   
+         4      0       0        {\ldots}                   1          0           0   
+         
+            completion  completiongradeitemnumber  completionview  completionexpected  \textbackslash{}
+         0           1                        NaN               0                   0   
+         1           1                        NaN               0                   0   
+         2           2                        NaN               0                   0   
+         3           0                        NaN               0                   0   
+         4           2                        0.0               0                   0   
+         
+            showdescription  availability deletioninprogress  
+         0                0           NaN                  0  
+         1                0           NaN                  0  
+         2                0           NaN                  0  
+         3                0           NaN                  0  
+         4                0           NaN                  0  
+         
+         [5 rows x 21 columns]
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities}\PY{o}{.}\PY{n}{name}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}22}]:} ['forum',
+          'survey',
+          'feedback',
+          'quiz',
+          'book',
+          'choice',
+          'page',
+          'label',
+          'glossary',
+          'wiki',
+          'lesson',
+          'data',
+          'chat',
+          'folder',
+          'assign',
+          'workshop',
+          'resource']
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities}\PY{o}{.}\PY{n}{name}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+         \PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}23}]:}         name     id  course  module  instance  section  idnumber       added  \textbackslash{}
+         0      forum  54984   10464       9     13387    58964       NaN  1372670270   
+         1     survey  55004   10464      19       662    58966       NaN  1378189004   
+         2   feedback  54995   10464       7      1007    58965       NaN  1372678410   
+         3      forum  54999   10464       9     13389    58965       NaN  1372677682   
+         4       quiz  54994   10464      16      4407    58965       NaN  1372678281   
+         5       quiz  55005   10464      16      4408    58966       NaN  1372679905   
+         6   feedback  55051   10464       7      1009    58968       NaN  1372678410   
+         7       book  54990   10464       3      2584    58965       NaN  1372677766   
+         8       book  54991   10464       3      2585    58965       NaN  1372678056   
+         9     choice  54992   10464       5      1471    58965       NaN  1372678792   
+         10      page  54993   10464      15      4214    58965       NaN  1377792996   
+         11      page  54989   10464      15      4213    58965       NaN  1435737732   
+         12      page  54985   10464      15      4211    58964       NaN  1377683443   
+         13     label  54996   10464      12      5448    58965       NaN  1449566049   
+         14      book  55001   10464       3      2586    58966       NaN  1372744095   
+         15  glossary  55002   10464      10      1514    58966       NaN  1377242031   
+         16      wiki  55003   10464      21       916    58966       NaN  1421424685   
+         17     label  55006   10464      12      5449    58966       NaN  1449570716   
+         18     forum  55016   10464       9     13391    58967       NaN  1377095848   
+         19      quiz  55017   10464      16      4409    58967       NaN  1372679905   
+         20    lesson  55025   10464      13      1097    58968       NaN  1372680029   
+         21      data  55014   10464       6       414    58967       NaN  1377243045   
+         22      page  55015   10464      15      4218    58967       NaN  1437478127   
+         23     forum  55020   10464       9     13392    58967       NaN  1449571377   
+         24      page  55011   10464      15      4216    58966       NaN  1453107570   
+         25      page  55021   10464      15      4219    58967       NaN  1453107570   
+         26     label  55018   10464      12      5450    58967       NaN  1449567301   
+         27      page  55030   10464      15      4222    58968       NaN  1378887557   
+         28      chat  55009   10464       4       662    58966       NaN  1439549085   
+         29      chat  55022   10464       4       663    58967       NaN  1439549381   
+         30      page  55052   10464      15      4228    58968       NaN  1469718206   
+         31     forum  55024   10464       9     13393    58968       NaN  1377791732   
+         32      page  55028   10464      15      4221    58968       NaN  1372677859   
+         33      quiz  55029   10464      16      4410    58968       NaN  1372744290   
+         34      page  55032   10464      15      4223    58968       NaN  1449569361   
+         35      book  55013   10464       3      2587    58967       NaN  1372767979   
+         36     forum  55010   10464       9     13390    58966       NaN  1449570989   
+         37      page  55023   10464      15      4220    58968       NaN  1435737732   
+         38     label  55034   10464      12      5451    58968       NaN  1449567335   
+         39      page  55036   10464      15      4224    58968       NaN  1453107570   
+         40      chat  55037   10464       4       664    58968       NaN  1440668269   
+         41     forum  55038   10464       9     13394    58968       NaN  1449571673   
+         42     forum  54988   10464       9     13388    58965       NaN  1372677417   
+         43    choice  55007   10464       5      1472    58966       NaN  1378299267   
+         44      page  55012   10464      15      4217    58967       NaN  1435737732   
+         45      page  55040   10464      15      4225    58965       NaN  1453107570   
+         46      quiz  55050   10464      16      4412    58967       NaN  1469092385   
+         47      page  55043   10464      15      4226    58964       NaN  1457605162   
+         48    folder  55041   10464       8       692    58969       NaN  1457603411   
+         49    folder  56981   10464       8       708    58969       NaN  1471192011   
+         50      page  55045   10464      15      4227    58965       NaN  1457622569   
+         51      chat  54998   10464       4       661    58965       NaN  1372678156   
+         52     label  55329   10464      12      5478    58964       NaN  1470636237   
+         53    assign  55054   10464       1      3349    58967       NaN  1470301324   
+         54     label  54987   10464      12      5447    58964       NaN  1420804201   
+         55  workshop  55027   10464      22       303    58968       NaN  1372744424   
+         56      page  54986   10464      15      4212    58964       NaN  1377683443   
+         57      page  61961   10464      15      4769    58968       NaN  1472297862   
+         58  resource  63335   10464      17      7143    58966       NaN  1472648783   
+         59      page  55000   10464      15      4215    58966       NaN  1435737732   
+         
+             score  indent        {\ldots}          visibleold  groupmode  groupingid  \textbackslash{}
+         0       0       0        {\ldots}                   1          0           0   
+         1       0       0        {\ldots}                   1          0           0   
+         2       0       0        {\ldots}                   1          0           0   
+         3       0       0        {\ldots}                   1          1           0   
+         4       0       0        {\ldots}                   1          0           0   
+         5       0       0        {\ldots}                   1          0           0   
+         6       0       0        {\ldots}                   1          0           0   
+         7       0       0        {\ldots}                   1          0           0   
+         8       0       0        {\ldots}                   1          0           0   
+         9       0       0        {\ldots}                   1          0           0   
+         10      0       0        {\ldots}                   1          0           0   
+         11      0       0        {\ldots}                   1          0           0   
+         12      0       0        {\ldots}                   1          0           0   
+         13      0       0        {\ldots}                   1          0           0   
+         14      0       0        {\ldots}                   1          0           0   
+         15      0       0        {\ldots}                   1          0           0   
+         16      0       0        {\ldots}                   1          0           0   
+         17      0       0        {\ldots}                   1          0           0   
+         18      0       0        {\ldots}                   1          0           0   
+         19      0       0        {\ldots}                   1          0           0   
+         20      0       0        {\ldots}                   1          0           0   
+         21      0       0        {\ldots}                   1          0           0   
+         22      0       0        {\ldots}                   1          0           0   
+         23      0       0        {\ldots}                   1          1           0   
+         24      0       0        {\ldots}                   1          0           0   
+         25      0       0        {\ldots}                   1          0           0   
+         26      0       0        {\ldots}                   1          0           0   
+         27      0       0        {\ldots}                   1          0           0   
+         28      0       0        {\ldots}                   1          0           0   
+         29      0       0        {\ldots}                   1          0           0   
+         30      0       0        {\ldots}                   1          0           0   
+         31      0       0        {\ldots}                   1          0           0   
+         32      0       0        {\ldots}                   1          0           0   
+         33      0       0        {\ldots}                   1          0           0   
+         34      0       0        {\ldots}                   1          0           0   
+         35      0       0        {\ldots}                   1          0           0   
+         36      0       0        {\ldots}                   1          1           0   
+         37      0       0        {\ldots}                   1          0           0   
+         38      0       0        {\ldots}                   1          0           0   
+         39      0       0        {\ldots}                   1          0           0   
+         40      0       0        {\ldots}                   1          0           0   
+         41      0       0        {\ldots}                   1          1           0   
+         42      0       0        {\ldots}                   1          1           0   
+         43      0       0        {\ldots}                   1          0           0   
+         44      0       0        {\ldots}                   1          0           0   
+         45      0       0        {\ldots}                   1          0           0   
+         46      0       0        {\ldots}                   1          0           0   
+         47      0       0        {\ldots}                   1          0           0   
+         48      0       0        {\ldots}                   1          0           0   
+         49      0       0        {\ldots}                   1          0           0   
+         50      0       0        {\ldots}                   1          0           0   
+         51      0       0        {\ldots}                   1          0           0   
+         52      0       0        {\ldots}                   1          0           0   
+         53      0       0        {\ldots}                   1          1           0   
+         54      0       0        {\ldots}                   1          0           0   
+         55      0       0        {\ldots}                   1          0           0   
+         56      0       0        {\ldots}                   1          0           0   
+         57      0       0        {\ldots}                   1          0           0   
+         58      0       0        {\ldots}                   1          0           0   
+         59      0       0        {\ldots}                   1          0           0   
+         
+             completion  completiongradeitemnumber  completionview  completionexpected  \textbackslash{}
+         0            1                        NaN               0                   0   
+         1            1                        NaN               0                   0   
+         2            2                        NaN               0                   0   
+         3            0                        NaN               0                   0   
+         4            2                        0.0               0                   0   
+         5            2                        0.0               0                   0   
+         6            2                        NaN               0                   0   
+         7            1                        NaN               0                   0   
+         8            1                        NaN               0                   0   
+         9            2                        NaN               0                   0   
+         10           1                        NaN               0                   0   
+         11           2                        NaN               1                   0   
+         12           1                        NaN               0                   0   
+         13           0                        NaN               0                   0   
+         14           1                        NaN               0                   0   
+         15           2                        NaN               0                   0   
+         16           1                        NaN               0                   0   
+         17           0                        NaN               0                   0   
+         18           2                        NaN               0                   0   
+         19           2                        0.0               0                   0   
+         20           1                        NaN               0                   0   
+         21           2                        NaN               1                   0   
+         22           1                        NaN               0                   0   
+         23           0                        NaN               0                   0   
+         24           0                        NaN               0                   0   
+         25           0                        NaN               0                   0   
+         26           0                        NaN               0                   0   
+         27           1                        NaN               0                   0   
+         28           0                        NaN               0                   0   
+         29           0                        NaN               0                   0   
+         30           1                        NaN               0                   0   
+         31           2                        NaN               0                   0   
+         32           1                        NaN               0                   0   
+         33           2                        NaN               0                   0   
+         34           0                        NaN               0                   0   
+         35           1                        NaN               0                   0   
+         36           0                        NaN               0                   0   
+         37           2                        NaN               1                   0   
+         38           0                        NaN               0                   0   
+         39           0                        NaN               0                   0   
+         40           0                        NaN               0                   0   
+         41           0                        NaN               0                   0   
+         42           2                        NaN               0                   0   
+         43           0                        NaN               0                   0   
+         44           2                        NaN               1                   0   
+         45           0                        NaN               0                   0   
+         46           0                        NaN               0                   0   
+         47           1                        NaN               0                   0   
+         48           0                        NaN               0                   0   
+         49           0                        NaN               0                   0   
+         50           0                        NaN               0                   0   
+         51           0                        NaN               0                   0   
+         52           0                        NaN               0                   0   
+         53           0                        NaN               0                   0   
+         54           0                        NaN               0                   0   
+         55           2                        0.0               0                   0   
+         56           1                        NaN               0                   0   
+         57           0                        NaN               0                   0   
+         58           0                        NaN               0                   0   
+         59           2                        NaN               1                   0   
+         
+             showdescription                                       availability  \textbackslash{}
+         0                 0                                                NaN   
+         1                 0                                                NaN   
+         2                 0                                                NaN   
+         3                 0                                                NaN   
+         4                 0                                                NaN   
+         5                 0                                                NaN   
+         6                 0                                                NaN   
+         7                 0                                                NaN   
+         8                 0                                                NaN   
+         9                 0                                                NaN   
+         10                0                                                NaN   
+         11                0                                                NaN   
+         12                0                                                NaN   
+         13                0                                                NaN   
+         14                0                                                NaN   
+         15                0                                                NaN   
+         16                0                                                NaN   
+         17                0                                                NaN   
+         18                0                                                NaN   
+         19                0                                                NaN   
+         20                0  \{"op":"\&","c":[\{"type":"mobileapp","e":2\}],"sh{\ldots}   
+         21                0                                                NaN   
+         22                0                                                NaN   
+         23                0                                                NaN   
+         24                0  \{"op":"\&","c":[\{"type":"mobileapp","e":1\}],"sh{\ldots}   
+         25                0  \{"op":"\&","c":[\{"type":"mobileapp","e":1\}],"sh{\ldots}   
+         26                0                                                NaN   
+         27                0                                                NaN   
+         28                0                                                NaN   
+         29                0                                                NaN   
+         30                0                                                NaN   
+         31                0                                                NaN   
+         32                0                                                NaN   
+         33                0                                                NaN   
+         34                0                                                NaN   
+         35                0                                                NaN   
+         36                0                                                NaN   
+         37                0                                                NaN   
+         38                0                                                NaN   
+         39                0  \{"op":"\&","c":[\{"type":"mobileapp","e":1\}],"sh{\ldots}   
+         40                0                                                NaN   
+         41                0                                                NaN   
+         42                0                                                NaN   
+         43                0                                                NaN   
+         44                0                                                NaN   
+         45                0  \{"op":"\&","c":[\{"type":"mobileapp","e":1\}],"sh{\ldots}   
+         46                0                                                NaN   
+         47                0                                                NaN   
+         48                0                                                NaN   
+         49                0                                                NaN   
+         50                0                                                NaN   
+         51                0                                                NaN   
+         52                0                                                NaN   
+         53                0  \{"op":"\&","c":[\{"type":"mobileapp","e":1\}],"sh{\ldots}   
+         54                0                                                NaN   
+         55                0                                                NaN   
+         56                0                                                NaN   
+         57                0  \{"op":"\&","c":[\{"type":"mobileapp","e":1\}],"sh{\ldots}   
+         58                0                                                NaN   
+         59                0                                                NaN   
+         
+            deletioninprogress  
+         0                   0  
+         1                   0  
+         2                   0  
+         3                   0  
+         4                   0  
+         5                   0  
+         6                   0  
+         7                   0  
+         8                   0  
+         9                   0  
+         10                  0  
+         11                  0  
+         12                  0  
+         13                  0  
+         14                  0  
+         15                  0  
+         16                  0  
+         17                  0  
+         18                  0  
+         19                  0  
+         20                  0  
+         21                  0  
+         22                  0  
+         23                  0  
+         24                  0  
+         25                  0  
+         26                  0  
+         27                  0  
+         28                  0  
+         29                  0  
+         30                  0  
+         31                  0  
+         32                  0  
+         33                  0  
+         34                  0  
+         35                  0  
+         36                  0  
+         37                  0  
+         38                  0  
+         39                  0  
+         40                  0  
+         41                  0  
+         42                  0  
+         43                  0  
+         44                  0  
+         45                  0  
+         46                  0  
+         47                  0  
+         48                  0  
+         49                  0  
+         50                  0  
+         51                  0  
+         52                  0  
+         53                  0  
+         54                  0  
+         55                  0  
+         56                  0  
+         57                  0  
+         58                  0  
+         59                  0  
+         
+         [60 rows x 21 columns]
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities\PYZus{}complete} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{..}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Datasets}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Moodle}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{export}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mdl\PYZus{}course\PYZus{}modules\PYZus{}completion.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities\PYZus{}complete}\PY{p}{)}\PY{p}{)}
+         \PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities\PYZus{}complete}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+30986
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}25}]:}                   username      id  coursemoduleid  completionstate  viewed  \textbackslash{}
+         0  user4634818596319526913  228878           54984                1       0   
+         1  user6686419676416704513  229164           54984                1       0   
+         2  user8928278637971505153  228735           54984                1       0   
+         3  user6300470324605485057  229088           54984                0       0   
+         4   user585221575054196737  229217           54984                1       0   
+         
+            timemodified  
+         0    1459172041  
+         1    1462433985  
+         2    1457780348  
+         3    1461233478  
+         4    1463342457  
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}26}]:} \PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities\PYZus{}complete\PYZus{}grade} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{..}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Datasets}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Moodle}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{export}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mdl\PYZus{}grade\PYZus{}grades\PYZus{}history.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} \PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities\PYZus{}complete\PYZus{}grade}\PY{p}{)}\PY{p}{)}
+         \PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities\PYZus{}complete\PYZus{}grade}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+70037
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}27}]:}                   username      id  action   oldid    source  timemodified  \textbackslash{}
+         0  user2093464160691027969  284754       2  112464       NaN    1471960348   
+         1  user1314540488300167169  299232       2  122119  mod/data    1472077698   
+         2  user2516430680280268801  299224       2  109716  mod/data    1472077159   
+         3  user1665969594520567809  299663       2  112787  mod/data    1472121360   
+         4  user7504105600452657153  299682       2  127999  mod/data    1472122080   
+         
+            itemid  rawgrade  rawgrademax  rawgrademin           {\ldots}             \textbackslash{}
+         0   20787       NaN        100.0          0.0           {\ldots}              
+         1   20564       4.0          5.0          1.0           {\ldots}              
+         2   20564       2.0          5.0          1.0           {\ldots}              
+         3   20564       4.5          5.0          1.0           {\ldots}              
+         4   20564       4.5          5.0          1.0           {\ldots}              
+         
+            locked  locktime  exported  overridden  excluded  feedback  feedbackformat  \textbackslash{}
+         0       0         0         0           0         0       NaN               0   
+         1       0         0         0           0         0       NaN               0   
+         2       0         0         0           0         0       NaN               0   
+         3       0         0         0           0         0       NaN               0   
+         4       0         0         0           0         0       NaN               0   
+         
+            information  informationformat           loggedusername  
+         0          NaN                  0  user8540069828419911681  
+         1          NaN                  0                      NaN  
+         2          NaN                  0                      NaN  
+         3          NaN                  0                      NaN  
+         4          NaN                  0                      NaN  
+         
+         [5 rows x 24 columns]
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}28}]:} \PY{n}{gl\PYZus{}moodle\PYZus{}course\PYZus{}activities\PYZus{}complete\PYZus{}grade}\PY{o}{.}\PY{n}{columns}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}28}]:} Index(['username', 'id', 'action', 'oldid', 'source', 'timemodified', 'itemid',
+                'rawgrade', 'rawgrademax', 'rawgrademin', 'rawscaleid', 'usermodified',
+                'finalgrade', 'hidden', 'locked', 'locktime', 'exported', 'overridden',
+                'excluded', 'feedback', 'feedbackformat', 'information',
+                'informationformat', 'loggedusername'],
+               dtype='object')
+\end{Verbatim}
+            
+    \subsection{Overall logstore}\label{overall-logstore}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} \PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{gl\PYZus{}moodle}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+2391762
+
+    \end{Verbatim}
+
+    \subsection{August 2016 session}\label{august-2016-session}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} \PY{n}{gl} \PY{o}{=} \PY{n}{gl\PYZus{}moodle}\PY{p}{[}\PY{n}{gl\PYZus{}moodle}\PY{o}{.}\PY{n}{courseid}\PY{o}{==}\PY{l+m+mi}{10464}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{gl}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+633326
+
+    \end{Verbatim}
+
+    \section{START PROCESSING DATA HERE}\label{start-processing-data-here}
+
+    \subsection{List of Student}\label{list-of-student}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{n}{student\PYZus{}list\PYZus{}2016} \PY{o}{=} \PY{n}{gl}\PY{o}{.}\PY{n}{username}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+         \PY{n}{nb\PYZus{}student} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{student\PYZus{}list\PYZus{}2016}\PY{p}{)}
+         \PY{n+nb}{print} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Enrolled Student list}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n+nb}{len}\PY{p}{(}\PY{n}{student\PYZus{}list\PYZus{}2016}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Enrolled Student list 2168
+
+    \end{Verbatim}
+
+    \subsection{List of activity recorded}\label{list-of-activity-recorded}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{n}{list\PYZus{}event\PYZus{}2016} \PY{o}{=} \PY{n}{gl}\PY{o}{.}\PY{n}{eventname}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+         \PY{n+nb}{print} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{list of event recorded}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n+nb}{len}\PY{p}{(}\PY{n}{list\PYZus{}event\PYZus{}2016}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+list of event recorded 168
+
+    \end{Verbatim}
+
+    \subsection{Statistics of activity}\label{statistics-of-activity}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} \PY{c+c1}{\PYZsh{}gl = gl.set\PYZus{}index(\PYZsq{}eventname\PYZsq{})}
+\end{Verbatim}
+
+
+    \subsection{Check some events}\label{check-some-events}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}35}]:} \PY{c+c1}{\PYZsh{}gl[gl.eventname==r\PYZsq{}\PYZbs{}mod\PYZus{}workshop\PYZbs{}event\PYZbs{}course\PYZus{}module\PYZus{}viewed\PYZsq{}]}
+         \PY{n}{gl}\PY{p}{[}\PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{username}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{user1220503334700449793}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{eventname}\PY{o}{==}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{mod\PYZus{}workshop}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{event}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{course\PYZus{}module\PYZus{}viewed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}35}]:}                         username        id  \textbackslash{}
+         1372967  user1220503334700449793  14822282   
+         1415818  user1220503334700449793  14916815   
+         1416177  user1220503334700449793  14917486   
+         1416496  user1220503334700449793  14918089   
+         1416607  user1220503334700449793  14918029   
+         1417695  user1220503334700449793  14920457   
+         1424768  user1220503334700449793  14936557   
+         1626953  user1220503334700449793  15350119   
+         1627425  user1220503334700449793  15350760   
+         
+                                                 eventname     component  action  \textbackslash{}
+         1372967  \textbackslash{}mod\_workshop\textbackslash{}event\textbackslash{}course\_module\_viewed  mod\_workshop  viewed   
+         1415818  \textbackslash{}mod\_workshop\textbackslash{}event\textbackslash{}course\_module\_viewed  mod\_workshop  viewed   
+         1416177  \textbackslash{}mod\_workshop\textbackslash{}event\textbackslash{}course\_module\_viewed  mod\_workshop  viewed   
+         1416496  \textbackslash{}mod\_workshop\textbackslash{}event\textbackslash{}course\_module\_viewed  mod\_workshop  viewed   
+         1416607  \textbackslash{}mod\_workshop\textbackslash{}event\textbackslash{}course\_module\_viewed  mod\_workshop  viewed   
+         1417695  \textbackslash{}mod\_workshop\textbackslash{}event\textbackslash{}course\_module\_viewed  mod\_workshop  viewed   
+         1424768  \textbackslash{}mod\_workshop\textbackslash{}event\textbackslash{}course\_module\_viewed  mod\_workshop  viewed   
+         1626953  \textbackslash{}mod\_workshop\textbackslash{}event\textbackslash{}course\_module\_viewed  mod\_workshop  viewed   
+         1627425  \textbackslash{}mod\_workshop\textbackslash{}event\textbackslash{}course\_module\_viewed  mod\_workshop  viewed   
+         
+                         target objecttable  objectid crud  edulevel  \textbackslash{}
+         1372967  course\_module    workshop     303.0    r         2   
+         1415818  course\_module    workshop     303.0    r         2   
+         1416177  course\_module    workshop     303.0    r         2   
+         1416496  course\_module    workshop     303.0    r         2   
+         1416607  course\_module    workshop     303.0    r         2   
+         1417695  course\_module    workshop     303.0    r         2   
+         1424768  course\_module    workshop     303.0    r         2   
+         1626953  course\_module    workshop     303.0    r         2   
+         1627425  course\_module    workshop     303.0    r         2   
+         
+                           {\ldots}             contextlevel  contextinstanceid  courseid  \textbackslash{}
+         1372967           {\ldots}                       70              55027     10464   
+         1415818           {\ldots}                       70              55027     10464   
+         1416177           {\ldots}                       70              55027     10464   
+         1416496           {\ldots}                       70              55027     10464   
+         1416607           {\ldots}                       70              55027     10464   
+         1417695           {\ldots}                       70              55027     10464   
+         1424768           {\ldots}                       70              55027     10464   
+         1626953           {\ldots}                       70              55027     10464   
+         1627425           {\ldots}                       70              55027     10464   
+         
+                  anonymous  other timecreated  origin       ip relatedusername  \textbackslash{}
+         1372967          0     N;  1471585035     web  0.0.0.0             NaN   
+         1415818          0     N;  1471776099     web  0.0.0.0             NaN   
+         1416177          0     N;  1471777535     web  0.0.0.0             NaN   
+         1416496          0     N;  1471778629     web  0.0.0.0             NaN   
+         1416607          0     N;  1471778503     web  0.0.0.0             NaN   
+         1417695          0     N;  1471782632     web  0.0.0.0             NaN   
+         1424768          0     N;  1471810397     web  0.0.0.0             NaN   
+         1626953          0     N;  1472278690     web  0.0.0.0             NaN   
+         1627425          0     N;  1472279967     web  0.0.0.0             NaN   
+         
+                             realusername  
+         1372967                      NaN  
+         1415818                      NaN  
+         1416177                      NaN  
+         1416496                      NaN  
+         1416607                      NaN  
+         1417695  user6442803380426375169  
+         1424768                      NaN  
+         1626953                      NaN  
+         1627425                      NaN  
+         
+         [9 rows x 21 columns]
+\end{Verbatim}
+            
+    \section{Date test}\label{date-test}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}36}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{convertTimstamp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1471613244}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{convertTimstamp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1471714654}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{convertTimstamp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1472537382}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+2016-08-19 14:27:24
+2016-08-20 18:37:34
+2016-08-30 07:09:42
+
+    \end{Verbatim}
+
+    \section{Felder and Silverman Features in the
+dataset}\label{felder-and-silverman-features-in-the-dataset}
+
+    \subsection{Group Activity per learning
+Style}\label{group-activity-per-learning-style}
+
+    \subsection{Active/Reflective Learning Style Feature
+Behaviour}\label{activereflective-learning-style-feature-behaviour}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}37}]:} \PY{n}{LS\PYZus{}1} \PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{core}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}chat}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}chat}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{message\PYZus{}sent,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}chat}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sessions\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}choice}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{answer\PYZus{}submitted,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}choice}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{answer\PYZus{}updated,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}choice}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}choicegroup}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{choice\PYZus{}updated,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}choicegroup}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}data}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}data}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{record\PYZus{}created,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}feedback}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}feedback}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{response\PYZus{}submitted,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}folder}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{all\PYZus{}files\PYZus{}downloaded,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}folder}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}forum}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{assessable\PYZus{}uploaded,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}forum}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}forum}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}searched,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}forum}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{discussion\PYZus{}created,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}forum}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{discussion\PYZus{}subscription\PYZus{}created,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}forum}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{discussion\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}forum}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{post\PYZus{}created,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}forum}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{post\PYZus{}updated,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}lesson}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{content\PYZus{}page\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}lesson}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{lesson\PYZus{}started,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{attempt\PYZus{}reviewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{attempt\PYZus{}started,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{attempt\PYZus{}submitted,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{attempt\PYZus{}summary\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{attempt\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}survey}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed}\PY{l+s+s2}{\PYZdq{}}
+         \PY{n}{LS\PYZus{}1}\PY{o}{+}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}survey}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{response\PYZus{}submitted,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}workshop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{assessable\PYZus{}uploaded,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}workshop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{assessment\PYZus{}evaluated,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}workshop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}workshop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{submission\PYZus{}assessed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}workshop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{submission\PYZus{}created,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}workshop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{submission\PYZus{}reassessed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}workshop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{submission\PYZus{}viewed}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}38}]:} \PY{n}{LS\PYZus{}AR} \PY{o}{=} \PY{n}{LS\PYZus{}1}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{LS\PYZus{}AR}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}38}]:} ['\textbackslash{}\textbackslash{}core\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_chat\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_chat\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}message\_sent',
+          '\textbackslash{}\textbackslash{}mod\_chat\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}sessions\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_choice\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}answer\_submitted',
+          '\textbackslash{}\textbackslash{}mod\_choice\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}answer\_updated',
+          '\textbackslash{}\textbackslash{}mod\_choice\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_choicegroup\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}choice\_updated',
+          '\textbackslash{}\textbackslash{}mod\_choicegroup\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_data\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_data\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}record\_created',
+          '\textbackslash{}\textbackslash{}mod\_feedback\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_feedback\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}response\_submitted',
+          '\textbackslash{}\textbackslash{}mod\_folder\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}all\_files\_downloaded',
+          '\textbackslash{}\textbackslash{}mod\_folder\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_forum\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}assessable\_uploaded',
+          '\textbackslash{}\textbackslash{}mod\_forum\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_forum\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_searched',
+          '\textbackslash{}\textbackslash{}mod\_forum\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}discussion\_created',
+          '\textbackslash{}\textbackslash{}mod\_forum\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}discussion\_subscription\_created',
+          '\textbackslash{}\textbackslash{}mod\_forum\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}discussion\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_forum\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}post\_created',
+          '\textbackslash{}\textbackslash{}mod\_forum\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}post\_updated',
+          '\textbackslash{}\textbackslash{}mod\_lesson\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}content\_page\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_lesson\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}lesson\_started',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}attempt\_reviewed',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}attempt\_started',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}attempt\_submitted',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}attempt\_summary\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}attempt\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_survey\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed\textbackslash{}\textbackslash{}mod\_survey\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}response\_submitted',
+          '\textbackslash{}\textbackslash{}mod\_workshop\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}assessable\_uploaded',
+          '\textbackslash{}\textbackslash{}mod\_workshop\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}assessment\_evaluated',
+          '\textbackslash{}\textbackslash{}mod\_workshop\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_workshop\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}submission\_assessed',
+          '\textbackslash{}\textbackslash{}mod\_workshop\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}submission\_created',
+          '\textbackslash{}\textbackslash{}mod\_workshop\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}submission\_reassessed',
+          '\textbackslash{}\textbackslash{}mod\_workshop\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}submission\_viewed']
+\end{Verbatim}
+            
+    \subsection{Sensing/Intuitive Learning style features
+behaviour}\label{sensingintuitive-learning-style-features-behaviour}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}39}]:} \PY{n}{LS\PYZus{}2} \PY{o}{=} \PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{booktool\PYZus{}print}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{book\PYZus{}printed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{core}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}book}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{chapter\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}book}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}choice}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{answer\PYZus{}submitted,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}choice}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{answer\PYZus{}updated,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}choice}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}choicegroup}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{choice\PYZus{}updated,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}choicegroup}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}data}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}data}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{record\PYZus{}created,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}feedback}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}feedback}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{response\PYZus{}submitted,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}folder}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{all\PYZus{}files\PYZus{}downloaded,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}folder}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}lesson}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{content\PYZus{}page\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}lesson}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{lesson\PYZus{}started,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{attempt\PYZus{}reviewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{attempt\PYZus{}started,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{attempt\PYZus{}submitted,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{attempt\PYZus{}summary\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{attempt\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}quiz}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}survey}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed,}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}survey}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{response\PYZus{}submitted}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}40}]:} \PY{n}{LS\PYZus{}SI} \PY{o}{=} \PY{n}{LS\PYZus{}2}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{LS\PYZus{}SI}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}40}]:} ['\textbackslash{}\textbackslash{}booktool\_print\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}book\_printed',
+          '\textbackslash{}\textbackslash{}core\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_book\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}chapter\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_book\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_choice\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}answer\_submitted',
+          '\textbackslash{}\textbackslash{}mod\_choice\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}answer\_updated',
+          '\textbackslash{}\textbackslash{}mod\_choice\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_choicegroup\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}choice\_updated',
+          '\textbackslash{}\textbackslash{}mod\_choicegroup\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_data\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_data\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}record\_created',
+          '\textbackslash{}\textbackslash{}mod\_feedback\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_feedback\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}response\_submitted',
+          '\textbackslash{}\textbackslash{}mod\_folder\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}all\_files\_downloaded',
+          '\textbackslash{}\textbackslash{}mod\_folder\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_lesson\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}content\_page\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_lesson\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}lesson\_started',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}attempt\_reviewed',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}attempt\_started',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}attempt\_submitted',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}attempt\_summary\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}attempt\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_quiz\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_survey\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}course\_module\_viewed',
+          '\textbackslash{}\textbackslash{}mod\_survey\textbackslash{}\textbackslash{}event\textbackslash{}\textbackslash{}response\_submitted']
+\end{Verbatim}
+            
+    \subsection{Visual/Verbal}\label{visualverbal}
+
+    \subsection{Sequential/Global}\label{sequentialglobal}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}41}]:} \PY{n}{gl} \PY{o}{=} \PY{n}{gl}\PY{o}{.}\PY{n}{sort\PYZus{}index}\PY{p}{(}\PY{p}{)}
+         \PY{n}{gl}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}41}]:}                      username        id                  eventname component  \textbackslash{}
+         1128  user6913591088091496449  10618099  \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed      core   
+         1129  user5586587012720230401  10696831  \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed      core   
+         1132  user6442803380426375169  10892699  \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed      core   
+         1133  user6442803380426375169  10892699  \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed      core   
+         1134  user2703772880239329281  10902308  \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed      core   
+         
+               action  target objecttable  objectid crud  edulevel     {\ldots}       \textbackslash{}
+         1128  viewed  course         NaN       NaN    r         2     {\ldots}        
+         1129  viewed  course         NaN       NaN    r         2     {\ldots}        
+         1132  viewed  course         NaN       NaN    r         2     {\ldots}        
+         1133  viewed  course         NaN       NaN    r         2     {\ldots}        
+         1134  viewed  course         NaN       NaN    r         2     {\ldots}        
+         
+               contextlevel  contextinstanceid  courseid  anonymous  other timecreated  \textbackslash{}
+         1128            50              10464     10464          0     N;  1457699491   
+         1129            50              10464     10464          0     N;  1458011539   
+         1132            50              10464     10464          0     N;  1458556919   
+         1133            50              10464     10464          0     N;  1458556919   
+         1134            50              10464     10464          0     N;  1458578313   
+         
+               origin       ip relatedusername realusername  
+         1128     web  0.0.0.0             NaN          NaN  
+         1129     web  0.0.0.0             NaN          NaN  
+         1132     web  0.0.0.0             NaN          NaN  
+         1133     web  0.0.0.0             NaN          NaN  
+         1134     web  0.0.0.0             NaN          NaN  
+         
+         [5 rows x 21 columns]
+\end{Verbatim}
+            
+    \subsubsection{Group by event name}\label{group-by-event-name}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}42}]:} \PY{c+c1}{\PYZsh{}gl[\PYZsq{}percentile\PYZsq{}] = gl.groupby(gl.index).rank(pct=True)}
+         \PY{n}{gl}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{percentile}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{gl}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{eventname}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}print (gl[\PYZsq{}percentile\PYZsq{}].drop\PYZus{}duplicates())}
+         \PY{n}{gl}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{percentile}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{drop\PYZus{}duplicates}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{E:}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{list\PYZus{}distribution\PYZus{}event.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \section{Set Matrix data per learning
+style}\label{set-matrix-data-per-learning-style}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}43}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}44}]:} \PY{n}{m1} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{LS\PYZus{}AR}\PY{p}{)}
+         \PY{n}{matrix\PYZus{}ls\PYZus{}ActiveReflexive} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{nb\PYZus{}student}\PY{p}{,}\PY{n}{m1}\PY{p}{)}\PY{p}{,}\PY{n}{dtype}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{int8}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}45}]:} \PY{n}{matrix\PYZus{}ls\PYZus{}ActiveReflexive}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}45}]:} array([[0, 0, 0, {\ldots}, 0, 0, 0],
+                [0, 0, 0, {\ldots}, 0, 0, 0],
+                [0, 0, 0, {\ldots}, 0, 0, 0],
+                {\ldots},
+                [0, 0, 0, {\ldots}, 0, 0, 0],
+                [0, 0, 0, {\ldots}, 0, 0, 0],
+                [0, 0, 0, {\ldots}, 0, 0, 0]], dtype=int8)
+\end{Verbatim}
+            
+    \section{Stage 1 Define a function which returns the matrix of user
+interactions}\label{stage-1-define-a-function-which-returns-the-matrix-of-user-interactions}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}50}]:} \PY{k}{def} \PY{n+nf}{get\PYZus{}features\PYZus{}matrix\PYZus{}learninstyle}\PY{p}{(}\PY{n}{gamma}\PY{p}{,}\PY{n}{gl}\PY{p}{,}\PY{n}{lstyle}\PY{p}{,}\PY{n}{ls\PYZus{}student}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Take in parameters a list of features , list of id, log mtrix returns the feature matrix of the learning style\PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{c+c1}{\PYZsh{}gamma = np.zeros((len(ls\PYZus{}student),len(lstyle)),dtype=np.int8)}
+             \PY{n}{i}\PY{o}{=}\PY{l+m+mi}{0}
+             \PY{k}{for} \PY{n}{s} \PY{o+ow}{in} \PY{n}{ls\PYZus{}student}\PY{p}{:}
+                 \PY{n}{lis}\PY{o}{=}\PY{p}{[}\PY{p}{]}
+                 \PY{k}{for} \PY{n}{lst} \PY{o+ow}{in} \PY{n}{lstyle}\PY{p}{:}
+                     \PY{n}{s\PYZus{}gl} \PY{o}{=} \PY{n}{gl}\PY{p}{[}\PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{username}\PY{o}{==}\PY{n}{s}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{eventname}\PY{o}{==}\PY{n}{lst}\PY{p}{)}\PY{p}{]}\PY{c+c1}{\PYZsh{}take sub set of event occurence in the log}
+                     \PY{n}{lis}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{s\PYZus{}gl}\PY{p}{)}\PY{p}{)}
+                 \PY{n}{gamma}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{lis}
+                 \PY{n}{i}\PY{o}{+}\PY{o}{=}\PY{l+m+mi}{1}
+                 \PY{k}{if} \PY{n}{i}\PY{o}{\PYZpc{}}\PY{k}{10}==0:
+                     \PY{n+nb}{print} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{processed }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{/}\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n+nb}{len}\PY{p}{(}\PY{n}{ls\PYZus{}student}\PY{p}{)}\PY{p}{)} \PY{p}{)}
+             \PY{k}{return} \PY{n}{gamma}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}51}]:} \PY{n}{get\PYZus{}features\PYZus{}matrix\PYZus{}learninstyle}\PY{p}{(}\PY{n}{matrix\PYZus{}ls\PYZus{}ActiveReflexive}\PY{p}{,}\PY{n}{gl}\PY{p}{,}\PY{n}{LS\PYZus{}AR}\PY{p}{,}\PY{n}{student\PYZus{}list\PYZus{}2016}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+processed 10/2168
+processed 20/2168
+processed 30/2168
+processed 40/2168
+processed 50/2168
+processed 60/2168
+processed 70/2168
+processed 80/2168
+processed 90/2168
+processed 100/2168
+processed 110/2168
+processed 120/2168
+processed 130/2168
+processed 140/2168
+processed 150/2168
+processed 160/2168
+processed 170/2168
+processed 180/2168
+processed 190/2168
+processed 200/2168
+processed 210/2168
+processed 220/2168
+processed 230/2168
+processed 240/2168
+processed 250/2168
+processed 260/2168
+processed 270/2168
+processed 280/2168
+processed 290/2168
+processed 300/2168
+processed 310/2168
+processed 320/2168
+processed 330/2168
+processed 340/2168
+processed 350/2168
+processed 360/2168
+processed 370/2168
+processed 380/2168
+processed 390/2168
+processed 400/2168
+processed 410/2168
+processed 420/2168
+processed 430/2168
+processed 440/2168
+processed 450/2168
+processed 460/2168
+processed 470/2168
+processed 480/2168
+processed 490/2168
+processed 500/2168
+processed 510/2168
+processed 520/2168
+processed 530/2168
+processed 540/2168
+processed 550/2168
+processed 560/2168
+processed 570/2168
+processed 580/2168
+processed 590/2168
+processed 600/2168
+processed 610/2168
+processed 620/2168
+processed 630/2168
+processed 640/2168
+processed 650/2168
+processed 660/2168
+processed 670/2168
+processed 680/2168
+processed 690/2168
+processed 700/2168
+processed 710/2168
+processed 720/2168
+processed 730/2168
+processed 740/2168
+processed 750/2168
+processed 760/2168
+processed 770/2168
+processed 780/2168
+processed 790/2168
+processed 800/2168
+processed 810/2168
+processed 820/2168
+processed 830/2168
+processed 840/2168
+processed 850/2168
+processed 860/2168
+processed 870/2168
+processed 880/2168
+processed 890/2168
+processed 900/2168
+processed 910/2168
+processed 920/2168
+processed 930/2168
+processed 940/2168
+processed 950/2168
+processed 960/2168
+processed 970/2168
+processed 980/2168
+processed 990/2168
+processed 1000/2168
+processed 1010/2168
+processed 1020/2168
+processed 1030/2168
+processed 1040/2168
+processed 1050/2168
+processed 1060/2168
+processed 1070/2168
+processed 1080/2168
+processed 1090/2168
+processed 1100/2168
+processed 1110/2168
+processed 1120/2168
+processed 1130/2168
+processed 1140/2168
+processed 1150/2168
+processed 1160/2168
+processed 1170/2168
+processed 1180/2168
+processed 1190/2168
+processed 1200/2168
+processed 1210/2168
+processed 1220/2168
+processed 1230/2168
+processed 1240/2168
+processed 1250/2168
+processed 1260/2168
+processed 1270/2168
+processed 1280/2168
+processed 1290/2168
+processed 1300/2168
+processed 1310/2168
+processed 1320/2168
+processed 1330/2168
+processed 1340/2168
+processed 1350/2168
+processed 1360/2168
+processed 1370/2168
+processed 1380/2168
+processed 1390/2168
+processed 1400/2168
+processed 1410/2168
+processed 1420/2168
+processed 1430/2168
+processed 1440/2168
+processed 1450/2168
+processed 1460/2168
+processed 1470/2168
+processed 1480/2168
+processed 1490/2168
+processed 1500/2168
+processed 1510/2168
+processed 1520/2168
+processed 1530/2168
+processed 1540/2168
+processed 1550/2168
+processed 1560/2168
+processed 1570/2168
+processed 1580/2168
+processed 1590/2168
+processed 1600/2168
+processed 1610/2168
+processed 1620/2168
+processed 1630/2168
+processed 1640/2168
+processed 1650/2168
+processed 1660/2168
+processed 1670/2168
+processed 1680/2168
+processed 1690/2168
+processed 1700/2168
+processed 1710/2168
+processed 1720/2168
+processed 1730/2168
+processed 1740/2168
+processed 1750/2168
+processed 1760/2168
+processed 1770/2168
+processed 1780/2168
+processed 1790/2168
+processed 1800/2168
+processed 1810/2168
+processed 1820/2168
+processed 1830/2168
+processed 1840/2168
+processed 1850/2168
+processed 1860/2168
+processed 1870/2168
+processed 1880/2168
+processed 1890/2168
+processed 1900/2168
+processed 1910/2168
+processed 1920/2168
+processed 1930/2168
+processed 1940/2168
+processed 1950/2168
+processed 1960/2168
+processed 1970/2168
+processed 1980/2168
+processed 1990/2168
+processed 2000/2168
+processed 2010/2168
+processed 2020/2168
+processed 2030/2168
+processed 2040/2168
+processed 2050/2168
+processed 2060/2168
+processed 2070/2168
+processed 2080/2168
+processed 2090/2168
+processed 2100/2168
+processed 2110/2168
+processed 2120/2168
+processed 2130/2168
+processed 2140/2168
+processed 2150/2168
+processed 2160/2168
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}51}]:} array([[   9,    0,    0, {\ldots},    0,    0,    0],
+                [-103,    2,    1, {\ldots},    1,    0,   16],
+                [ -58,   76,  -72, {\ldots},    0,    0,   12],
+                {\ldots},
+                [  12,    0,    0, {\ldots},    0,    0,    0],
+                [   3,    0,    0, {\ldots},    0,    0,    0],
+                [   3,    0,    0, {\ldots},    0,    0,    0]], dtype=int8)
+\end{Verbatim}
+            
+    \subsection{1.1 Save feature matrix
+behaviour}\label{save-feature-matrix-behaviour}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}72}]:} \PY{n+nb}{print} \PY{p}{(}\PY{n}{matrix\PYZus{}ls\PYZus{}ActiveReflexive}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[[   9    0    0 {\ldots}    0    0    0]
+ [-103    2    1 {\ldots}    1    0   16]
+ [ -58   76  -72 {\ldots}    0    0   12]
+ {\ldots}
+ [  12    0    0 {\ldots}    0    0    0]
+ [   3    0    0 {\ldots}    0    0    0]
+ [   3    0    0 {\ldots}    0    0    0]]
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{n}{np}\PY{o}{.}\PY{n}{save}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{E:}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{ls\PYZus{}ar.npy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{matrix\PYZus{}ls\PYZus{}ActiveReflexive}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{n}{np}\PY{o}{.}\PY{n}{savetxt}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{E:}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{ls\PYZus{}ar.txt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{matrix\PYZus{}ls\PYZus{}ActiveReflexive}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}73}]:} \PY{n}{mat\PYZus{}abs} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{matrix\PYZus{}ls\PYZus{}ActiveReflexive}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}138}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{mat\PYZus{}abs}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[[  9   0   0 {\ldots}   0   0   0]
+ [103   2   1 {\ldots}   1   0  16]
+ [ 58  76  72 {\ldots}   0   0  12]
+ {\ldots}
+ [ 12   0   0 {\ldots}   0   0   0]
+ [  3   0   0 {\ldots}   0   0   0]
+ [  3   0   0 {\ldots}   0   0   0]]
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}87}]:} \PY{c+c1}{\PYZsh{}np.sum(np.where(mat\PYZus{}abs==0))/((mat\PYZus{}abs.shape[0]*mat\PYZus{}abs.shape[1]))}
+         \PY{c+c1}{\PYZsh{}mat\PYZus{}abs.shape[0]}
+         \PY{c+c1}{\PYZsh{}mat\PYZus{}abs.shape[1]}
+         \PY{c+c1}{\PYZsh{}np.where(mat\PYZus{}abs==0)}
+         \PY{n}{A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{mat\PYZus{}abs}\PY{o}{==}\PY{l+m+mi}{0}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{A}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(array([   0,    0,    0, {\ldots}, 2167, 2167, 2167], dtype=int64), array([ 1,  2,  3, {\ldots}, 36, 37, 38], dtype=int64))
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}94}]:} \PY{c+c1}{\PYZsh{}Number of zero of the matrix}
+         \PY{n}{np}\PY{o}{.}\PY{n}{count\PYZus{}nonzero}\PY{p}{(}\PY{n}{mat\PYZus{}abs}\PY{o}{==}\PY{l+m+mi}{0}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}sum\PYZus{}zero =0}
+         \PY{c+c1}{\PYZsh{}for i in range(mat\PYZus{}abs.shape[0]):}
+         \PY{c+c1}{\PYZsh{}    for j in range(mat\PYZus{}abs.shape[1]):}
+         \PY{c+c1}{\PYZsh{}        if mat\PYZus{}abs[i,j]==0:}
+         \PY{c+c1}{\PYZsh{}            sum\PYZus{}zero+=1}
+         \PY{c+c1}{\PYZsh{}print (sum\PYZus{}zero)}
+         \PY{n}{np}\PY{o}{.}\PY{n}{count\PYZus{}nonzero}\PY{p}{(}\PY{n}{mat\PYZus{}abs}\PY{o}{==}\PY{l+m+mi}{0}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{o}{/}\PY{p}{(}\PY{p}{(}\PY{n}{mat\PYZus{}abs}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{mat\PYZus{}abs}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}94}]:} 54.10989686819945
+\end{Verbatim}
+            
+    \subsection{1.2 Discretize learning activities
+descriptor}\label{discretize-learning-activities-descriptor}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}107}]:} \PY{n}{bins} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]} \PY{c+c1}{\PYZsh{}hint of S. Graf}
+          \PY{n}{digitized} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{digitize}\PY{p}{(}\PY{n}{mat\PYZus{}abs}\PY{p}{,} \PY{n}{bins}\PY{p}{)}
+          \PY{n}{bin\PYZus{}means} \PY{o}{=} \PY{p}{[}\PY{n}{mat\PYZus{}abs}\PY{p}{[}\PY{n}{digitized} \PY{o}{==} \PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{bins}\PY{p}{)}\PY{p}{)}\PY{p}{]}
+          \PY{n+nb}{print}\PY{p}{(}\PY{n}{digitized}\PY{p}{)}
+          \PY{n+nb}{print}\PY{p}{(}\PY{n}{bin\PYZus{}means}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[[4 1 1 {\ldots} 1 1 1]
+ [4 3 2 {\ldots} 2 1 4]
+ [4 4 4 {\ldots} 1 1 4]
+ {\ldots}
+ [4 1 1 {\ldots} 1 1 1]
+ [4 1 1 {\ldots} 1 1 1]
+ [4 1 1 {\ldots} 1 1 1]]
+[0.0, 1.0, 2.0]
+
+    \end{Verbatim}
+
+    \section{Stage 2 Compute Learnining Style from discretize learning
+behaviour}\label{stage-2-compute-learnining-style-from-discretize-learning-behaviour}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}193}]:} \PY{n}{LS} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{digitized}\PY{p}{,}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{/}\PY{n}{digitized}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+          \PY{n}{max\PYZus{}val} \PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{LS}\PY{p}{)}
+          \PY{n}{feature\PYZus{}min\PYZus{}student} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{digitized}\PY{p}{,}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+          \PY{n}{feature\PYZus{}max\PYZus{}student} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{digitized}\PY{p}{,}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+          \PY{n}{LS\PYZus{}percent} \PY{o}{=}\PY{n}{LS}\PY{o}{*}\PY{l+m+mi}{100}\PY{o}{/}\PY{n}{max\PYZus{}val}
+          \PY{n+nb}{print} \PY{p}{(}\PY{n}{LS\PYZus{}percent}\PY{p}{)}
+          \PY{n+nb}{print}\PY{p}{(}\PY{n}{feature\PYZus{}min\PYZus{}student}\PY{p}{)}
+          \PY{n+nb}{print} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{LS\PYZus{}percent}\PY{p}{)}\PY{p}{)}
+          \PY{n+nb}{print} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{argmin}\PY{p}{(}\PY{n}{LS\PYZus{}percent}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[37.5        94.11764706 80.88235294 {\ldots} 37.5        33.82352941
+ 34.55882353]
+[1 1 1 {\ldots} 1 1 1]
+377
+752
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}189}]:} \PY{c+c1}{\PYZsh{}LS\PYZus{}AR[feature\PYZus{}max\PYZus{}student[2169]]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}190}]:} \PY{k+kn}{import} \PY{n+nn}{time}
+          \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+          \PY{n}{gamma2}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{]}\PY{p}{)}\PY{c+c1}{\PYZsh{}zeros((1,m1),dtype=np.int8)}
+          \PY{n}{S} \PY{o}{=} \PY{p}{[}\PY{p}{]} 
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}179}]:} \PY{k}{def} \PY{n+nf}{get\PYZus{}features\PYZus{}matrix\PYZus{}learninstyle2}\PY{p}{(}\PY{n}{gl}\PY{p}{,}\PY{n}{lstyle}\PY{p}{,}\PY{n}{s}\PY{p}{)}\PY{p}{:}
+              \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Take in parameters a list of features , list of id, log mtrix returns the feature matrix of the learning style\PYZdq{}\PYZdq{}\PYZdq{}}
+              \PY{c+c1}{\PYZsh{}gamma = np.zeros((len(ls\PYZus{}student),len(lstyle)),dtype=np.int8)}
+              
+              \PY{k}{if} \PY{o+ow}{not} \PY{n}{s} \PY{o+ow}{in} \PY{n}{S}\PY{p}{:}
+                  \PY{n}{lis} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                  \PY{k}{for} \PY{n}{lst} \PY{o+ow}{in} \PY{n}{lstyle}\PY{p}{:}
+                      \PY{n}{s\PYZus{}gl} \PY{o}{=} \PY{n}{gl}\PY{p}{[}\PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{username}\PY{o}{==}\PY{n}{s}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{eventname}\PY{o}{==}\PY{n}{lst}\PY{p}{)}\PY{p}{]}\PY{c+c1}{\PYZsh{}take sub set of event occurence in the log}
+                      \PY{n}{lis}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{s\PYZus{}gl}\PY{p}{)}\PY{p}{)}
+                  \PY{n}{v} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{lis}\PY{p}{)}
+                  \PY{n}{gamma2}  \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vstack}\PY{p}{(}\PY{p}{(}\PY{n}{gamma2}\PY{p}{,}\PY{n}{v}\PY{p}{)}\PY{p}{)}
+                  \PY{c+c1}{\PYZsh{}gamma.append(lis)}
+                  \PY{n}{S}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{s}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}181}]:} \PY{n}{start} \PY{o}{=}\PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+          \PY{c+c1}{\PYZsh{}sd = gl.apply(lambda s: get\PYZus{}features\PYZus{}matrix\PYZus{}learninstyle2(gl,LS\PYZus{}AR,s))}
+          \PY{n}{end} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+          \PY{n+nb}{print} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Matrix generation processing time  }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{end} \PY{o}{\PYZhy{}}\PY{n}{start}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Matrix generation processing time  0.000997304916381836
+
+    \end{Verbatim}
+
+    \subsection{Explore low feature behaviour regarding learning style
+detectected}\label{explore-low-feature-behaviour-regarding-learning-style-detectected}
+
+    \subsubsection{Low feature hint}\label{low-feature-hint}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}191}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{feature\PYZus{}min\PYZus{}student}\PY{p}{,} \PY{n}{LS\PYZus{}percent}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}191}]:} <matplotlib.collections.PathCollection at 0x26105afb908>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_84_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Explore high feature behaviour regarding learning style
+detectected}\label{explore-high-feature-behaviour-regarding-learning-style-detectected}
+
+    \subsubsection{high feature hint}\label{high-feature-hint}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}192}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{feature\PYZus{}max\PYZus{}student}\PY{p}{,} \PY{n}{LS\PYZus{}percent}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}192}]:} <matplotlib.collections.PathCollection at 0x26105ad0400>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_87_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Transhorm hint matrix in binary
+feature}\label{transhorm-hint-matrix-in-binary-feature}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}197}]:} \PY{c+c1}{\PYZsh{}gl[(gl.username==student\PYZus{}list\PYZus{}2016[555]) \PYZam{} (gl.eventname==LS\PYZus{}AR[0])]}
+          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k}{import} \PY{n}{OneHotEncoder}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}214}]:} \PY{n}{onehotencoder} \PY{o}{=} \PY{n}{OneHotEncoder}\PY{p}{(}\PY{n}{categorical\PYZus{}features} \PY{o}{=} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{n+nb}{len}\PY{p}{(}\PY{n}{LS\PYZus{}AR}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          \PY{n}{xdigitize} \PY{o}{=} \PY{n}{onehotencoder}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{digitized}\PY{p}{)}\PY{o}{.}\PY{n}{toarray}\PY{p}{(}\PY{p}{)}
+          \PY{n+nb}{print} \PY{p}{(}\PY{n}{digitized}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+          \PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{digitized}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+          \PY{n+nb}{print} \PY{p}{(}\PY{n}{xdigitize}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}
+          \PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{xdigitize}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+          \PY{c+c1}{\PYZsh{}gl[(gl.courseid==10464)]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[4 1 1 1 1 1 1 2 3 1 1 1 1 1 1 1 4 1 1 1 4 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1]
+39
+[[0. 0. 0. 1. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0.
+  1. 0. 0. 0. 0. 1. 0. 0. 1. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0.
+  0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 1. 0. 0.
+  0. 1. 0. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0.
+  0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0.
+  0. 1. 1. 0. 0. 0. 1. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0.
+  1. 0. 0. 0.]
+ [0. 0. 0. 1. 0. 0. 1. 0. 0. 1. 0. 0. 0. 0. 0. 1. 0. 1. 0. 0. 1. 0. 0. 0.
+  0. 0. 0. 1. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 1. 0. 0. 0. 0. 1. 0. 0.
+  1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 1. 0. 0. 0. 0.
+  1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 1. 0. 0. 0. 0. 0. 0. 1. 0. 0. 1.
+  0. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0.
+  1. 1. 0. 0. 0. 1. 1. 0. 0. 0. 0. 1. 0. 0. 0. 1. 0. 1. 0. 0. 1. 0. 0. 0.
+  0. 0. 0. 1.]
+ [0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 1. 0. 0. 0. 1. 0. 0. 0.
+  0. 0. 0. 1. 1. 0. 0. 0. 0. 1. 0. 0. 0. 1. 1. 0. 0. 0. 0. 0. 0. 1. 1. 0.
+  0. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0.
+  1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 1. 0. 0.
+  0. 0. 0. 1. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0.
+  1. 1. 1. 0. 0. 0. 1. 0. 0. 0. 0. 1. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0.
+  0. 0. 0. 1.]
+ [0. 0. 0. 1. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0.
+  1. 0. 0. 0. 0. 1. 0. 0. 1. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0.
+  0. 1. 0. 0. 0. 1. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 1. 1. 0. 0. 0. 0. 1. 0.
+  0. 0. 0. 1. 0. 0. 0. 0. 1. 0. 1. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0.
+  0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0.
+  0. 1. 1. 0. 0. 0. 1. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0.
+  1. 0. 0. 0.]]
+148
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}211}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{xdigitize}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(2168, 148)
+
+    \end{Verbatim}
+
+    \section{Step 3 learn the distribution of the data using Deep Belief
+Network}\label{step-3-learn-the-distribution-of-the-data-using-deep-belief-network}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{}\PYZsh{}\PYZsh{} gl[(gl.courseid==10464) \PYZam{} (gl.username==\PYZdq{}user2516430680280268801\PYZdq{})].eventname.unique().tolist()}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}75}]:} \PY{n}{gl}\PY{p}{[}\PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{courseid}\PY{o}{==}\PY{l+m+mi}{10464}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{component}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mod\PYZus{}workshop}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{username}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{user2516430680280268801}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PY{n}{target}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}75}]:} ['course\_module', 'submission', 'assessable']
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}76}]:} \PY{n}{gl}\PY{p}{[}\PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{courseid}\PY{o}{==}\PY{l+m+mi}{10464}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{objecttable}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{question}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{username}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{user2516430680280268801}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}76}]:} Empty DataFrame
+         Columns: [username, id, eventname, component, action, target, objecttable, objectid, crud, edulevel, contextid, contextlevel, contextinstanceid, courseid, anonymous, other, timecreated, origin, ip, relatedusername, realusername]
+         Index: []
+         
+         [0 rows x 21 columns]
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{c+c1}{\PYZsh{}gl[(gl.courseid==10464) \PYZam{} (gl.target==\PYZdq{}course\PYZus{}module\PYZdq{}) \PYZam{} (gl.username==\PYZdq{}user2516430680280268801\PYZdq{})].contextinstanceid.unique().tolist()}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{c+c1}{\PYZsh{}gl[(gl.courseid==10464) \PYZam{} (gl.target==\PYZdq{}course\PYZus{}module\PYZdq{}) \PYZam{} (gl.username==\PYZdq{}user2516430680280268801\PYZdq{})]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}55}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+         \PY{n+nb}{len}\PY{p}{(}\PY{n}{gl}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{eventname}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}scorm}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{gl}\PY{p}{[}\PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{eventname}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{mod\PYZus{}scorm}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{event}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{course\PYZus{}module\PYZus{}viewed}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{gl}\PY{o}{.}\PY{n}{username}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{user2959087468848087041}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{]}
+         
+         \PY{c+c1}{\PYZsh{}gl[(gl.eventname==\PYZdq{}\PYZbs{}\PYZbs{}mod\PYZus{}wiki\PYZbs{}\PYZbs{}event\PYZbs{}\PYZbs{}page\PYZus{}viewed\PYZdq{}) \PYZam{} (gl.username==\PYZdq{}user2959087468848087041\PYZdq{})]}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}55}]:} Empty DataFrame
+         Columns: [username, id, eventname, component, action, target, objecttable, objectid, crud, edulevel, contextid, contextlevel, contextinstanceid, courseid, anonymous, other, timecreated, origin, ip, relatedusername, realusername]
+         Index: []
+         
+         [0 rows x 21 columns]
+\end{Verbatim}
+            
+    \subsection{Plot histogram of events}\label{plot-histogram-of-events}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+         \PY{k+kn}{from} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{ticker} \PY{k}{import} \PY{n}{StrMethodFormatter}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{n}{df} \PY{o}{=} \PY{n}{gl}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{eventname}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}28}]:} \PY{c+c1}{\PYZsh{}df.hist()}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}26}]:} \PY{n}{gl}\PY{p}{[}\PY{n}{gl}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{username}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{user8540069828419911681}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}26}]:}                         username        id                    eventname  \textbackslash{}
+         0        user8540069828419911681     25017    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         1        user8540069828419911681     25017    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         4        user8540069828419911681     70090    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         5        user8540069828419911681     70090    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         40       user8540069828419911681    612588    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         41       user8540069828419911681    612588    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         66       user8540069828419911681    945967    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         67       user8540069828419911681    945967    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         68       user8540069828419911681    953849    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         69       user8540069828419911681    953849    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         74       user8540069828419911681   1024017    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         75       user8540069828419911681   1024017    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         76       user8540069828419911681   1029299    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         77       user8540069828419911681   1029299    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         126      user8540069828419911681   1467293    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         127      user8540069828419911681   1467293    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         192      user8540069828419911681   2142713    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         193      user8540069828419911681   2142713    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         232      user8540069828419911681   2460520    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         233      user8540069828419911681   2460520    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         303      user8540069828419911681   3274564    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         304      user8540069828419911681   3274564    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         307      user8540069828419911681   3298510    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         308      user8540069828419911681   3298510    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         409      user8540069828419911681   4307266    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         410      user8540069828419911681   4307266    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         412      user8540069828419911681   4317166    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         413      user8540069828419911681   4317166    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         416      user8540069828419911681   4432108    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         417      user8540069828419911681   4432108    \textbackslash{}core\textbackslash{}event\textbackslash{}course\_viewed   
+         {\ldots}                          {\ldots}       {\ldots}                          {\ldots}   
+         2391384  user8540069828419911681   6761347  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391399  user8540069828419911681   6788802  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391400  user8540069828419911681   6788802  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391403  user8540069828419911681   6819006  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391404  user8540069828419911681   6819006  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391405  user8540069828419911681   6851543  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391406  user8540069828419911681   6851543  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391407  user8540069828419911681   6920867  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391448  user8540069828419911681  10002267  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391449  user8540069828419911681  10002267  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391457  user8540069828419911681  10330496  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391458  user8540069828419911681  10330835  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391459  user8540069828419911681  10330835  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391460  user8540069828419911681  10456897  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391548  user8540069828419911681   8542463  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391549  user8540069828419911681   8542463  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391555  user8540069828419911681   8757139  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391556  user8540069828419911681   8757139  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391579  user8540069828419911681  10293798  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391580  user8540069828419911681  10293798  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391591  user8540069828419911681  14199105  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391592  user8540069828419911681  14199105  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391667  user8540069828419911681  15228981  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391668  user8540069828419911681  15228981  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391734  user8540069828419911681  15806650  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391735  user8540069828419911681  15806650  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391739  user8540069828419911681  15859036  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391740  user8540069828419911681  15859036  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391743  user8540069828419911681  15858909  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         2391744  user8540069828419911681  15858909  \textbackslash{}core\textbackslash{}event\textbackslash{}user\_loggedinas   
+         
+                 component      action  target objecttable  objectid crud  edulevel  \textbackslash{}
+         0            core      viewed  course         NaN       NaN    r         2   
+         1            core      viewed  course         NaN       NaN    r         2   
+         4            core      viewed  course         NaN       NaN    r         2   
+         5            core      viewed  course         NaN       NaN    r         2   
+         40           core      viewed  course         NaN       NaN    r         2   
+         41           core      viewed  course         NaN       NaN    r         2   
+         66           core      viewed  course         NaN       NaN    r         2   
+         67           core      viewed  course         NaN       NaN    r         2   
+         68           core      viewed  course         NaN       NaN    r         2   
+         69           core      viewed  course         NaN       NaN    r         2   
+         74           core      viewed  course         NaN       NaN    r         2   
+         75           core      viewed  course         NaN       NaN    r         2   
+         76           core      viewed  course         NaN       NaN    r         2   
+         77           core      viewed  course         NaN       NaN    r         2   
+         126          core      viewed  course         NaN       NaN    r         2   
+         127          core      viewed  course         NaN       NaN    r         2   
+         192          core      viewed  course         NaN       NaN    r         2   
+         193          core      viewed  course         NaN       NaN    r         2   
+         232          core      viewed  course         NaN       NaN    r         2   
+         233          core      viewed  course         NaN       NaN    r         2   
+         303          core      viewed  course         NaN       NaN    r         2   
+         304          core      viewed  course         NaN       NaN    r         2   
+         307          core      viewed  course         NaN       NaN    r         2   
+         308          core      viewed  course         NaN       NaN    r         2   
+         409          core      viewed  course         NaN       NaN    r         2   
+         410          core      viewed  course         NaN       NaN    r         2   
+         412          core      viewed  course         NaN       NaN    r         2   
+         413          core      viewed  course         NaN       NaN    r         2   
+         416          core      viewed  course         NaN       NaN    r         2   
+         417          core      viewed  course         NaN       NaN    r         2   
+         {\ldots}           {\ldots}         {\ldots}     {\ldots}         {\ldots}       {\ldots}  {\ldots}       {\ldots}   
+         2391384      core  loggedinas    user        user       6.0    r         0   
+         2391399      core  loggedinas    user        user       6.0    r         0   
+         2391400      core  loggedinas    user        user       6.0    r         0   
+         2391403      core  loggedinas    user        user       6.0    r         0   
+         2391404      core  loggedinas    user        user       6.0    r         0   
+         2391405      core  loggedinas    user        user       6.0    r         0   
+         2391406      core  loggedinas    user        user       6.0    r         0   
+         2391407      core  loggedinas    user        user       6.0    r         0   
+         2391448      core  loggedinas    user        user       6.0    r         0   
+         2391449      core  loggedinas    user        user       6.0    r         0   
+         2391457      core  loggedinas    user        user       6.0    r         0   
+         2391458      core  loggedinas    user        user       6.0    r         0   
+         2391459      core  loggedinas    user        user       6.0    r         0   
+         2391460      core  loggedinas    user        user       6.0    r         0   
+         2391548      core  loggedinas    user        user       6.0    r         0   
+         2391549      core  loggedinas    user        user       6.0    r         0   
+         2391555      core  loggedinas    user        user       6.0    r         0   
+         2391556      core  loggedinas    user        user       6.0    r         0   
+         2391579      core  loggedinas    user        user       6.0    r         0   
+         2391580      core  loggedinas    user        user       6.0    r         0   
+         2391591      core  loggedinas    user        user       6.0    r         0   
+         2391592      core  loggedinas    user        user       6.0    r         0   
+         2391667      core  loggedinas    user        user       6.0    r         0   
+         2391668      core  loggedinas    user        user       6.0    r         0   
+         2391734      core  loggedinas    user        user       6.0    r         0   
+         2391735      core  loggedinas    user        user       6.0    r         0   
+         2391739      core  loggedinas    user        user       6.0    r         0   
+         2391740      core  loggedinas    user        user       6.0    r         0   
+         2391743      core  loggedinas    user        user       6.0    r         0   
+         2391744      core  loggedinas    user        user       6.0    r         0   
+         
+                           {\ldots}             contextlevel  contextinstanceid  courseid  \textbackslash{}
+         0                 {\ldots}                       50               5282      5282   
+         1                 {\ldots}                       50               5282      5282   
+         4                 {\ldots}                       50               5282      5282   
+         5                 {\ldots}                       50               5282      5282   
+         40                {\ldots}                       50               5282      5282   
+         41                {\ldots}                       50               5282      5282   
+         66                {\ldots}                       50               5282      5282   
+         67                {\ldots}                       50               5282      5282   
+         68                {\ldots}                       50               5282      5282   
+         69                {\ldots}                       50               5282      5282   
+         74                {\ldots}                       50               5282      5282   
+         75                {\ldots}                       50               5282      5282   
+         76                {\ldots}                       50               5282      5282   
+         77                {\ldots}                       50               5282      5282   
+         126               {\ldots}                       50               5282      5282   
+         127               {\ldots}                       50               5282      5282   
+         192               {\ldots}                       50               5282      5282   
+         193               {\ldots}                       50               5282      5282   
+         232               {\ldots}                       50               5282      5282   
+         233               {\ldots}                       50               5282      5282   
+         303               {\ldots}                       50               5293      5293   
+         304               {\ldots}                       50               5293      5293   
+         307               {\ldots}                       50               5282      5282   
+         308               {\ldots}                       50               5282      5282   
+         409               {\ldots}                       50               5978      5978   
+         410               {\ldots}                       50               5978      5978   
+         412               {\ldots}                       50               6345      6345   
+         413               {\ldots}                       50               6345      6345   
+         416               {\ldots}                       50               5282      5282   
+         417               {\ldots}                       50               5282      5282   
+         {\ldots}               {\ldots}                      {\ldots}                {\ldots}       {\ldots}   
+         2391384           {\ldots}                       10                  0         0   
+         2391399           {\ldots}                       10                  0         0   
+         2391400           {\ldots}                       10                  0         0   
+         2391403           {\ldots}                       10                  0         0   
+         2391404           {\ldots}                       10                  0         0   
+         2391405           {\ldots}                       10                  0         0   
+         2391406           {\ldots}                       10                  0         0   
+         2391407           {\ldots}                       10                  0         0   
+         2391448           {\ldots}                       10                  0         0   
+         2391449           {\ldots}                       10                  0         0   
+         2391457           {\ldots}                       10                  0         0   
+         2391458           {\ldots}                       10                  0         0   
+         2391459           {\ldots}                       10                  0         0   
+         2391460           {\ldots}                       10                  0         0   
+         2391548           {\ldots}                       10                  0         0   
+         2391549           {\ldots}                       10                  0         0   
+         2391555           {\ldots}                       10                  0         0   
+         2391556           {\ldots}                       10                  0         0   
+         2391579           {\ldots}                       10                  0         0   
+         2391580           {\ldots}                       10                  0         0   
+         2391591           {\ldots}                       10                  0         0   
+         2391592           {\ldots}                       10                  0         0   
+         2391667           {\ldots}                       10                  0         0   
+         2391668           {\ldots}                       10                  0         0   
+         2391734           {\ldots}                       10                  0         0   
+         2391735           {\ldots}                       10                  0         0   
+         2391739           {\ldots}                       10                  0         0   
+         2391740           {\ldots}                       10                  0         0   
+         2391743           {\ldots}                       10                  0         0   
+         2391744           {\ldots}                       10                  0         0   
+         
+                  anonymous                                              other  \textbackslash{}
+         0                0                                                 N;   
+         1                0                                                 N;   
+         4                0                                                 N;   
+         5                0                                                 N;   
+         40               0                                                 N;   
+         41               0                                                 N;   
+         66               0                                                 N;   
+         67               0                                                 N;   
+         68               0                                                 N;   
+         69               0                                                 N;   
+         74               0                                                 N;   
+         75               0                                                 N;   
+         76               0                                                 N;   
+         77               0                                                 N;   
+         126              0                                                 N;   
+         127              0                                                 N;   
+         192              0                                                 N;   
+         193              0                                                 N;   
+         232              0                                                 N;   
+         233              0                                                 N;   
+         303              0                                                 N;   
+         304              0                                                 N;   
+         307              0                                                 N;   
+         308              0                                                 N;   
+         409              0                                                 N;   
+         410              0                                                 N;   
+         412              0                                                 N;   
+         413              0                                                 N;   
+         416              0                                                 N;   
+         417              0                                                 N;   
+         {\ldots}            {\ldots}                                                {\ldots}   
+         2391384          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391399          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391400          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391403          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391404          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391405          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391406          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391407          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391448          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391449          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391457          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391458          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391459          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391460          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391548          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391549          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391555          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391556          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391579          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391580          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391591          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391592          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391667          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391668          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391734          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391735          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391739          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391740          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391743          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         2391744          0  a:2:\{s:16:"originalusername";s:12:"Helen Foste{\ldots}   
+         
+                 timecreated  origin       ip          relatedusername  \textbackslash{}
+         0        1417771086     web  0.0.0.0                      NaN   
+         1        1417771086     web  0.0.0.0                      NaN   
+         4        1418071759     web  0.0.0.0                      NaN   
+         5        1418071759     web  0.0.0.0                      NaN   
+         40       1421164465     web  0.0.0.0                      NaN   
+         41       1421164465     web  0.0.0.0                      NaN   
+         66       1421398751     web  0.0.0.0                      NaN   
+         67       1421398751     web  0.0.0.0                      NaN   
+         68       1421401366     web  0.0.0.0                      NaN   
+         69       1421401366     web  0.0.0.0                      NaN   
+         74       1421420256     web  0.0.0.0                      NaN   
+         75       1421420256     web  0.0.0.0                      NaN   
+         76       1421421869     web  0.0.0.0                      NaN   
+         77       1421421869     web  0.0.0.0                      NaN   
+         126      1421591912     web  0.0.0.0                      NaN   
+         127      1421591912     web  0.0.0.0                      NaN   
+         192      1422202246     web  0.0.0.0                      NaN   
+         193      1422202246     web  0.0.0.0                      NaN   
+         232      1422349054     web  0.0.0.0                      NaN   
+         233      1422349054     web  0.0.0.0                      NaN   
+         303      1422804128     web  0.0.0.0                      NaN   
+         304      1422804128     web  0.0.0.0                      NaN   
+         307      1422815053     web  0.0.0.0                      NaN   
+         308      1422815053     web  0.0.0.0                      NaN   
+         409      1423408654     web  0.0.0.0                      NaN   
+         410      1423408654     web  0.0.0.0                      NaN   
+         412      1423414666     web  0.0.0.0                      NaN   
+         413      1423414666     web  0.0.0.0                      NaN   
+         416      1423498954     web  0.0.0.0                      NaN   
+         417      1423498954     web  0.0.0.0                      NaN   
+         {\ldots}             {\ldots}     {\ldots}      {\ldots}                      {\ldots}   
+         2391384  1441698904     web  0.0.0.0                      NaN   
+         2391399  1441816379     web  0.0.0.0                      NaN   
+         2391400  1441816379     web  0.0.0.0                      NaN   
+         2391403  1442386795     web  0.0.0.0                      NaN   
+         2391404  1442386795     web  0.0.0.0                      NaN   
+         2391405  1443190692     web  0.0.0.0                      NaN   
+         2391406  1443190692     web  0.0.0.0                      NaN   
+         2391407  1444036385     web  0.0.0.0                      NaN   
+         2391448  1455183303     web  0.0.0.0                      NaN   
+         2391449  1455183303     web  0.0.0.0                      NaN   
+         2391457  1455637225     web  0.0.0.0                      NaN   
+         2391458  1455637831     web  0.0.0.0                      NaN   
+         2391459  1455637831     web  0.0.0.0                      NaN   
+         2391460  1456340738     web  0.0.0.0                      NaN   
+         2391548  1453459768     web  0.0.0.0  user7619359643386511361   
+         2391549  1453459768     web  0.0.0.0  user7619359643386511361   
+         2391555  1453708694     web  0.0.0.0  user7948416982221586433   
+         2391556  1453708694     web  0.0.0.0  user7948416982221586433   
+         2391579  1455565397     web  0.0.0.0  user8141990522597146625   
+         2391580  1455565397     web  0.0.0.0  user8141990522597146625   
+         2391591  1470721988     web  0.0.0.0  user5431818300000567297   
+         2391592  1470721988     web  0.0.0.0  user5431818300000567297   
+         2391667  1472106479     web  0.0.0.0  user2017585291300175873   
+         2391668  1472106479     web  0.0.0.0  user2017585291300175873   
+         2391734  1472980338     web  0.0.0.0  user6622632471403954177   
+         2391735  1472980338     web  0.0.0.0  user6622632471403954177   
+         2391739  1473141893     web  0.0.0.0  user5589537075431997441   
+         2391740  1473141893     web  0.0.0.0  user5589537075431997441   
+         2391743  1473141376     web  0.0.0.0  user8986846392567726081   
+         2391744  1473141376     web  0.0.0.0  user8986846392567726081   
+         
+                             realusername  
+         0                            NaN  
+         1                            NaN  
+         4                            NaN  
+         5                            NaN  
+         40                           NaN  
+         41                           NaN  
+         66                           NaN  
+         67                           NaN  
+         68                           NaN  
+         69                           NaN  
+         74                           NaN  
+         75                           NaN  
+         76                           NaN  
+         77                           NaN  
+         126                          NaN  
+         127                          NaN  
+         192                          NaN  
+         193                          NaN  
+         232                          NaN  
+         233                          NaN  
+         303                          NaN  
+         304                          NaN  
+         307                          NaN  
+         308                          NaN  
+         409                          NaN  
+         410                          NaN  
+         412                          NaN  
+         413                          NaN  
+         416                          NaN  
+         417                          NaN  
+         {\ldots}                          {\ldots}  
+         2391384  user8540069828419911681  
+         2391399  user8540069828419911681  
+         2391400  user8540069828419911681  
+         2391403  user8540069828419911681  
+         2391404  user8540069828419911681  
+         2391405  user8540069828419911681  
+         2391406  user8540069828419911681  
+         2391407  user8540069828419911681  
+         2391448  user8540069828419911681  
+         2391449  user8540069828419911681  
+         2391457  user8540069828419911681  
+         2391458  user8540069828419911681  
+         2391459  user8540069828419911681  
+         2391460  user8540069828419911681  
+         2391548  user8540069828419911681  
+         2391549  user8540069828419911681  
+         2391555  user8540069828419911681  
+         2391556  user8540069828419911681  
+         2391579  user8540069828419911681  
+         2391580  user8540069828419911681  
+         2391591  user8540069828419911681  
+         2391592  user8540069828419911681  
+         2391667  user8540069828419911681  
+         2391668  user8540069828419911681  
+         2391734  user8540069828419911681  
+         2391735  user8540069828419911681  
+         2391739  user8540069828419911681  
+         2391740  user8540069828419911681  
+         2391743  user8540069828419911681  
+         2391744  user8540069828419911681  
+         
+         [497754 rows x 21 columns]
+\end{Verbatim}
+            
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
