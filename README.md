@@ -1,4 +1,4 @@
-##  Max Learning Style Identification Model  (MLSIM) 
+##  Manga Learning Style Identification Model  (MLSIM) 
 
 ### Felder & Silverman Learning Style Dimension :
   - Active/Reflective, 
@@ -41,8 +41,7 @@
   http://yusugomori.com/docs/SGD_DA.pdf
 
 ### Publication :
-  - More detailed Java implementations are introduced in my book, Java Deep Learning Essentials.
-
+  - More details in my publication
  
 
   
