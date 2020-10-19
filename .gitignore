@@ -1,21 +1,11 @@
 .DS_Store
 ._.DS_Store
 
-*.seed
-*.log
-*.dat
-*.out
-*.pid
-*.gz
+*.csv
+*.xls
+*.pyc
+*.npy
 
-app/Analytics/server/tmp/*
-app/Analytics/server/logs/*
-app/Analytics/logs/*
-logs/*
-app/Analytics/server/nbproject/*
-app/Analytics/server/report.*.json
-/.idea
-/app/AnalyticsCloned/server/nbproject/private/
-package-lock.json
-node_modules
-dist/
+raw/*
+output/*
+data/phili2017/*
