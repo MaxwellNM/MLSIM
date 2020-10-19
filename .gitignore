@@ -4,18 +4,8 @@
 *.csv
 *.xls
 *.pyc
-<<<<<<< HEAD
-*.out
-*.pid
-*.gz
-=======
 *.npy
->>>>>>> 5d1c35d90d7bf5924341675146a01039dbd395d5
-
 raw/*
 output/*
 data/phili2017/*
-<<<<<<< HEAD
-dist/
-=======
->>>>>>> 5d1c35d90d7bf5924341675146a01039dbd395d5
+
