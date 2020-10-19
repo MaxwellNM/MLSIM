@@ -83,12 +83,12 @@ class HYPERPARAMS:
     optimizer_param = 0.95   # momentum value for Momentum optimizer, or beta1 value for Adam
 
 class OPTIMIZER:
-    learning_rate =  {'min': 0.1, 'max': 0.3}
-    nb_hiden_node1 = {'min': 4, 'max': 6}
-    nb_hiden_node2 = {'min': 4, 'max': 6}
-    batch_size     =     {'min': 10, 'max': 30}
-    epochs = {'min': 10, 'max': 50}
-    C = {'min': 0.1, 'max': 0.28}
+    learning_rate =  {'min': 0.1, 'max': 0.9}
+    nb_hiden_node1 = {'min': 10, 'max': 18}
+    nb_hiden_node2 = {'min': 5, 'max': 14}
+    batch_size     =     {'min': 10, 'max': 100}
+    epochs = {'min': 500, 'max': 1000}
+    C = {'min': 0.1, 'max': 0.9}
     #constrative_k = {'min': 1, 'max': 3}
     optimizer = ['skopt']   # ['bayesian', 'skopt']
     optimizer_param = {'min': 0.5, 'max': 0.99}

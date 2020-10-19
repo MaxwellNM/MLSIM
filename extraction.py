@@ -2,11 +2,13 @@
 
 import os
 import numpy as np
-from sklearn.preprocessing import Imputer
+#from sklearn.preprocessing import Imputer
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import KBinsDiscretizer
 import pandas as pd
 from matplotlib import pyplot as plt 
 import math
+from sklearn.preprocessing import normalize
 #from utils import *
 
 """
@@ -19,9 +21,29 @@ def discretize_learning_traces(mat_abs):
     bins = [0,1,2,3]#range(nbbins)#[0,1,2,3]
     digitized = np.digitize(mat_abs, bins)
     bin_means = [mat_abs[digitized == i].mean() for i in range(1, len(bins))]
-    print("bins ",bins," digitized 2 ",digitized[0:2]," mat abs ",mat_abs[0:2])
+    #print("bins ",bins," digitized 2 ",digitized[0:2]," mat abs ",mat_abs[0:2])
     return digitized
 
+def discretize_learning_traces2(mat_abs):
+    est = KBinsDiscretizer(n_bins=9, encode='ordinal', strategy='kmeans')
+    est.fit(mat_abs)
+    digitized = est.transform(mat_abs)
+    return digitized
+
+def print_box_blot(data,msg):
+    fig1, ax1 = plt.subplots()
+    ax1.set_title('Box Plot '+msg)
+    ax1.boxplot(normalize(data))
+    plt.show()
+
+def discretize_learning_traces3(mat_abs):
+    count_data = mat_abs.shape[0]*mat_abs.shape[1]
+    nbbins = math.floor(np.sqrt(count_data))
+    bins = [0,1,2,3]#range(nbbins)#[0,1,2,3]
+    digitized = np.digitize(mat_abs, bins)
+    bin_means = [mat_abs[digitized == i].mean() for i in range(1, len(bins))]
+    #print("bins ",bins," digitized 2 ",digitized[0:2]," mat abs ",mat_abs[0:2])
+    return digitized
 
 """We used here a litterature approach to have a prior estimation of the learning style (building labels) """
 """S.Graf,2010 & J. Bernard, 2017 """
@@ -65,7 +87,7 @@ def extract_features_learning(LS_XX, liked_feat_student):
     index_relevant_features = []
     l_behav = []
     for elt in liked_feat_student:
-        if not elt in indDesc:
+        if not elt in index_relevant_features:
             index_relevant_features.append(elt)
             l_behav.append(LS_XX[elt]) 
     Desc = np.vstack(l_behav)
@@ -78,10 +100,11 @@ def extract_features_learning(LS_XX, liked_feat_student):
 @Input: number_feature_behav : list of learning activities id
 @Output: xdigitize : binarized data to train by te model
 """
-def binarized_features2(digitized, number_feature_behav):
-    onehotencoder = OneHotEncoder(categorical_features= range(0,number_feature_behav))
-    xdigitize = onehotencoder.fit_transform(digitized).toarray()
-    return xdigitize
+#def binarized_features2(digitized, number_feature_behav):
+#    print("number features: ",number_feature_behav)
+#    onehotencoder = OneHotEncoder(categorical_features= range(0,number_feature_behav))
+#    xdigitize = onehotencoder.fit_transform(digitized).toarray()
+#    return xdigitize
 
 def binarized_features(data,nb_features):
     enc = {}

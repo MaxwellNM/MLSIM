@@ -1,0 +1,14 @@
+.DS_Store
+._.DS_Store
+
+*.csv
+*.xls
+*.pyc
+*.out
+*.pid
+*.gz
+
+raw/*
+output/*
+data/phili2017/*
+dist/

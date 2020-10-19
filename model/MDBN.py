@@ -4,17 +4,16 @@ from __future__ import division
 from __future__ import print_function
 import sys
 import numpy as np
-#from .HiddenLayer import HiddenLayer
-#from .LogisticRegression import LogisticRegression
 from parameters import *
 from utils import *
 import time
 import os
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
+from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier # Import Decision Tree Classifier
 from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import classification_report, accuracy_score, auc,precision_recall_curve
 
 class RBM(object):
     def __init__(self, input=None, n_visible=2, n_hidden=3, \
@@ -53,7 +52,12 @@ class RBM(object):
         self.hbias = hbias
         self.vbias = vbias
 
-    def _stochastic_gradient_descent(self, _data,rbm_index):
+    def set_weigths(self,weigth_dic):
+        self.W = weigth_dic["W"]
+        self.hbias = weigth_dic["h"]
+        self.vbias =  weigth_dic["v"]      
+
+    def _stochastic_gradient_descent(self, _data,rbm_index,verbose=False):
         """
         Performs stochastic gradient descend optimization algorithm.
         :param _data: array-like, shape = (n_samples, n_features)
@@ -77,15 +81,19 @@ class RBM(object):
                     accum_delta_W += delta_W
                     accum_delta_b += delta_b
                     accum_delta_c += delta_c
-                self.W += self.learning_rate * (accum_delta_W / self.batch_size)
+                self.W += self.learning_rate * (accum_delta_W / self.batch_size) 
                 self.hbias += self.learning_rate * (accum_delta_b / self.batch_size)
                 self.vbias += self.learning_rate * (accum_delta_c / self.batch_size)
             if TRAINING.save_history:
                 #compute weights amplitude over training
-                error = self.get_reconstruction_cross_entropy2(data) #_compute_reconstruction_error(data)
+                error = self.get_reconstruction_cross_entropy(data) #_compute_reconstruction_error(data)
+                weights_magnitude = frobinus_norm(self.W)
+                b_magnitude = frobinus_norm(self.hbias)
+                v_magnitude = frobinus_norm(self.vbias)
                 train_history.append({ 'epoch':iteration,'RBM':rbm_index+1,  'cost':error})
-                print(">> Epoch %d finished \tRBM %d Reconstruction error %f" % (iteration,rbm_index+1, error))
-        return train_history
+                if verbose:
+                    print(">> Epoch %d finished \tRBM %d Reconstruction error %f \tWeigths %f hbias %f vbias %f  " % (iteration,rbm_index+1, error,weights_magnitude,b_magnitude,v_magnitude))
+        return self.W,self.hbias,self.vbias
 
 
 
@@ -112,15 +120,7 @@ class RBM(object):
 
         #chain_end = nv_samples
         extend_inp = np.expand_dims(input,0)
-        #extend_nv_samples = np.expand_dims(nv_samples,0)
-        
-        # print("Dimension W :",np.shape(W))
-        # print("Dimension synthetic v :",np.shape(nv_samples))
-        # print("Dimension predict h :",np.shape(nh_samples))
-        # print("Dimension synthetic v mean :",np.shape(nv_means))
-        # print("Dimension predict h mean :",np.shape(nh_means))
-        #print("Dimension input: ",np.shape(extend_inp))
-        # print("lr = ",self.learning_rate)
+
         val1 = np.dot(ph_mean.T,extend_inp)
         val2 = np.dot(nh_means.T,nv_samples)
         W += self.learning_rate * (val1-val2)
@@ -170,24 +170,23 @@ class RBM(object):
         pre_sigmoid_activation_v = np.dot(sigmoid_activation_h, self.W) + self.vbias
         sigmoid_activation_v = sigmoid(pre_sigmoid_activation_v)
         cross_entropy =  - np.mean(
-            np.sum(sample * np.log(sigmoid_activation_v) +
-            (1 - sample) * np.log(1 - sigmoid_activation_v),
+            np.sum(sample - np.log(sigmoid_activation_v)**2 ,
                       axis=1))
         
         return cross_entropy
 
-    def get_reconstruction_cross_entropy(self):
-        pre_sigmoid_activation_h = np.dot(self.input, self.W) + self.hbias
+    def get_reconstruction_cross_entropy(self,sample):
+        pre_sigmoid_activation_h = np.dot(sample, self.W.T) + self.hbias
         sigmoid_activation_h = sigmoid(pre_sigmoid_activation_h)
         
-        pre_sigmoid_activation_v = np.dot(sigmoid_activation_h, self.W.T) + self.vbias
+        pre_sigmoid_activation_v = np.dot(sigmoid_activation_h, self.W) + self.vbias
         sigmoid_activation_v = sigmoid(pre_sigmoid_activation_v)
         #print('Activation ',sigmoid_activation_v)
         #print('Input ',self.input)
         #cost = x*log(x_tilde) +(1-x)*log(1-x_tilde)
         cross_entropy =  - np.mean(
-            np.sum(self.input * np.log(sigmoid_activation_v) +
-            (1 - self.input) * np.log(1 - sigmoid_activation_v),
+            np.sum(sample * np.log(sigmoid_activation_v) +
+            (1 - sample) * np.log(1 - sigmoid_activation_v),
                       axis=1))
         
         return cross_entropy
@@ -198,7 +197,7 @@ class RBM(object):
         return reconstructed_v
 
 class MDBN(object):
-    def __init__(self, input_data=None, label=None,  input_size=2, hidden_layer_sizes=[3, 3], output_size=1,batch_size=HYPERPARAMS.batch_size, learning_rate=0.1,epochs=50,C=1):
+    def __init__(self, input_data=None, label=None,  input_size=2, hidden_layer_sizes=[3, 3],batch_size=HYPERPARAMS.batch_size, learning_rate=0.1,epochs=50,C=1):
         
         self.input = input_data.astype(np.float32)
         self.y = label.astype(np.float32)
@@ -210,6 +209,7 @@ class MDBN(object):
         self.nepochs = epochs
         self.learning_rate = learning_rate
         self.C = C
+        self.weights = dict()
         W,hbias,vbias = self.init_weights(input_size,hidden_layer_sizes[0])
         # construct rbm_layer
         rbm_layer = RBM(input=self.input,
@@ -221,13 +221,16 @@ class MDBN(object):
                         batch_size=self.batch_size,
                         learning_rate=self.learning_rate ,
                         epochs=self.nepochs)
+        self.weights[0] = {"W":W,"h":hbias,"v":vbias}
         self.rbm_layers.append(rbm_layer)
         sample_input =self.input
+        i = 1
         for rbm_index in range(self.n_hidden_layers-1):
             _,sample_input =   self.rbm_layers[rbm_index].sample_h_given_v(sample_input)    
             n_hid =  hidden_layer_sizes[rbm_index+1]
             n_vis =  hidden_layer_sizes[rbm_index]
             W,hbias,vbias = self.init_weights(n_vis,n_hid)
+            self.weights[i] = {"W":W,"h":hbias,"v":vbias}
             rbm_i = RBM(input=sample_input,
                         n_visible = n_vis,
                         n_hidden = n_hid,
@@ -237,22 +240,32 @@ class MDBN(object):
                         batch_size=self.batch_size,
                         learning_rate=self.learning_rate ,
                         epochs=self.nepochs)
+            i+=1
             self.rbm_layers.append(rbm_i)
 
-  
+    def load_weights(self, X_train):
+        i=0
+        for rbm_index in range(self.n_hidden_layers):    
+            self.rbm_layers[rbm_index].set_weigths(self.weights[i] )
+            i+=1
+    
+    def save_weigths(self,path_folder):
+        np.save(path_folder+"/MLSIM_weigths.npy",self.weights)
 
-    def train(self, X_train):
+
+    def train(self, X_train,verbose=False):
         #training
-        #print("start the training: ",np.shape(X_train))
-        #print("Number of layers ",len(self.rbm_layers))
+        i=0
         for rbm_index in range(self.n_hidden_layers):
             rbm =   self.rbm_layers[rbm_index]
-            #print ("Index rbm ",rbm_index)
-            #print("regenerate X_train: ",np.shape(X_train))
-            rbm._stochastic_gradient_descent(X_train,rbm_index)
+
+            W,hbias,vbias = rbm._stochastic_gradient_descent(X_train,rbm_index,verbose)
+            self.weights[i] = {"W":W,"h":hbias,"v":vbias}
             _,X_trainp = rbm.sample_h_given_v(X_train) #kind prediction last layer 
             X_train = X_trainp
             #save weights
+            self.weights[i] = {"W":W,"h":hbias,"v":vbias}
+            i+=1
 
 
     def init_weights(self,n_visible,number_neuron_hiden):
@@ -261,7 +274,7 @@ class MDBN(object):
         vbias = None
         a = 1./np.sqrt(n_visible)
         b = 1./np.sqrt(number_neuron_hiden)
-        #v = a
+
         if W is None:
             a = 1. / n_visible
             initial_W = np.array(np.random.uniform(  # initialize W uniformly
@@ -270,7 +283,7 @@ class MDBN(object):
                 size=(number_neuron_hiden,n_visible)))
 
             W = initial_W
-            print("Initialize weigths",W)
+            #print("Initialize weigths",W)
 
         if hbias is None:
             hbias =np.array(np.random.uniform(  # initialize h bias
@@ -284,7 +297,7 @@ class MDBN(object):
                 size=(1, n_visible)))
         return W, hbias,vbias
 
-
+    #No training weigths
     def predict(self, X_predict):
 
         h_list = []
@@ -296,34 +309,44 @@ class MDBN(object):
             vvar_mean,vvar_sample = rbm.sample_v_given_h(hvar_sample)
             #print ("shape vvar ",np.shape(vvar_sample))
             X_predict = hvar_sample
-            h_list.append(hvar_sample)
-            synthetic_V_list.append(vvar_sample)
+            h_list.append(hvar_mean)
+            synthetic_V_list.append(vvar_mean)
         #print ("shape last layer: ", h_list[0].shape,h_list[1].shape)
 
         return synthetic_V_list, h_list #h_list[-1] est la dernière couche du Réseau de RBM à utiliser pour finetuner
 
-    def finetune(self,X_transfer, y_transfer,msg, bytraining=True):
+    def finetune(self,X_transfer, y_transfer,msg,rng=1245,classifier="SVM",weight=False, bytraining=True):
         #synthetic_V_list, h_list = self.predict(X_transfer)
         X_finetuned = self.get_last_layer_feature(X_transfer)#h_list[-1] #new_data_entry
         if bytraining:
-            #train the last layer with hybrid model
-            #train last layer with SVM
-            #self.layer_svm = SVC(C=self.C,probability=True)#SVC(kernel='linear', probability=True) #can optimize with parameter
-            self.model_finetune = SVC(C=self.C,probability=True) #DecisionTreeClassifier(criterion="entropy", max_depth=1) #LogisticRegression ()
-            print('Finetuning with SVM')
-            #y = column_or_1d(y_transfer, warn=True)
-            strt2=time.time()
-            #self.layer_svm.fit(X_finetuned,y_transfer)
-            self.model_finetune.fit(X_finetuned,y_transfer)
-            print ("Time fitting the data: ",time.time()-strt2)
-        #evaluate the finetuning
-        #predictions = self.layer_svm.predict(X_finetuned)
+            if classifier=="SVM":
+                print('Training with SVM')
+                #train the last layer with hybrid model
+                #train last layer with SVM
+                if weight:
+                    cw = {}
+                    for l in set(y_transfer):
+                        cw[l] = np.sum(y_transfer == l)
+                    self.model_finetune = SVC(C=1,probability=True,cache_size=200,max_iter=1000,class_weight=cw,random_state=rng,verbose=True) #DecisionTreeClassifier(criterion="entropy", max_depth=1) #LogisticRegression ()
+                else:
+                    self.model_finetune = SVC(C=self.C,probability=True,cache_size=200,random_state=rng,verbose=True) 
+                print('Finetuning with SVM')
+                strt2=time.time()
+                self.model_finetune.fit(X_finetuned,y_transfer)
+                print ("Time fitting the data: ",time.time()-strt2)
+            elif classifier=="MLP":
+                #train the last layer with hybrid model
+                #train last layer with MLP
+                self.model_finetune = MLPClassifier(max_iter=500,solver="adam",random_state=12345,learning_rate_init=0.01,verbose=True) 
+                print('Finetuning with MLP')
+                strt2=time.time()
+                self.model_finetune.fit(X_finetuned,y_transfer)
+                print ("Time fitting the data: ",time.time()-strt2)                
         predictions = self.model_finetune.predict(X_finetuned)
-        #print (msg," Model accuracy :",accuracy_score(y_transfer,predictions))
-        #print (msg," Confusion matrix :\n",confusion_matrix(y_transfer,predictions))
         return predictions
         
     
+    #Forwadings
     def get_last_layer_feature(self,data):
         synthetic_V_list, h_list = self.predict(data)
         X_finetuned = h_list[-1]
@@ -332,14 +355,12 @@ class MDBN(object):
 
     def evaluate(self, X_test,y_test,msg,verbose=False):
         predictions = self.finetune(X_test,y_test,msg, bytraining=False)
-        accuracy = accuracy_score(y_test,predictions)
+        precision, recall, thresholds = precision_recall_curve(y_test, predictions)
+        aucc = auc(recall, precision)#accuracy_score(y_test,predictions)
         if verbose:
-            print (msg," Model accuracy :",accuracy_score(y_test,predictions))
+            #print (msg," Model accuracy :",accuracy_score(y_test,predictions))
             print (msg," Confusion matrix :\n",confusion_matrix(y_test,predictions))
-        return accuracy
+        return aucc
     
     def getweights(self):
-        pass
-
-
-
+        return self.weights

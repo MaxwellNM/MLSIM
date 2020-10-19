@@ -2,7 +2,7 @@
 
 import os
 import numpy as np
-from sklearn.preprocessing import Imputer
+#from sklearn.preprocessing import Imputer
 from sklearn.preprocessing import OneHotEncoder
 import pandas as pd
 from sklearn.model_selection import train_test_split
